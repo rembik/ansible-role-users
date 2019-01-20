@@ -68,7 +68,7 @@
   args:
     chdir: "{{ users_user.home | default('/home/' + users_user.name) }}/.ssh"
     removes: "{{ users_user.home | default('/home/' + users_user.name) }}/.ssh/authorized_keys.tmp"
-  changed_when: 
+  changed_when:
     - users_user_ssh_keys.results[0].stat.checksum | default('') !=
       users_user_ssh_keys.results[1].stat.checksum | default('')
   tags: ['users', 'configuration']
