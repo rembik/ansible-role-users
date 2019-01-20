@@ -1,175 +1,108 @@
 ---
 # tasks file for users
-- name: manage groups
-  group:
-    name: "{{ item.name }}"
-    state: "{{ item.state | default('present') }}"
-    gid: "{{ item.gid | default(omit) }}"
-  with_items:
-    - "{{ users_group_list }}"
-  when:
-    - users_group_list is defined
-  loop_control:
-    label: "{{ item.name }}"
 
-- name: manage users
-  user:
-    name: "{{ item.name }}"
-    state: "{{ item.state | default('present') }}"
-    comment: "{{ item.comment | default(omit) }}"
-    password: "{{ item.password | default(omit) }}"
-    uid: "{{ item.uid | default(omit) }}"
-    group: "{{ item.group | default(omit) }}"
-    groups: "{{ item.groups | default(omit) }}"
-  with_items:
-    - "{{ users_user_list }}"
-  when:
-    - users_user_list is defined
-  loop_control:
-    label: "{{ item.name }}"
+- name: Bootstrap users
+  remote_user: "{{bootstrap_remote_user | default(omit)}}"
+  block:
 
-- name: manage cron permission
-  template:
-    src: cron.allow.j2
-    dest: /etc/cron.allow
-  when:
-    - users_user_list is defined
-  loop_control:
-    label: "{{ item.name }}"
+    - name: Create users groups
+      group: name="{{item.name}}" gid="{{item.gid | default(omit)}}"
+      with_items: "{{users_groups}}"
+      tags: ['users','groups','configuration']
 
-- name: set sudo options
-  template:
-    src: sudo.j2
-    dest: "/etc/sudoers.d/{{ item.name }}"
-  with_items:
-    - "{{ users_user_list }}"
-  when:
-    - users_user_list is defined
-    - item.sudo_options is defined
-  loop_control:
-    label: "{{ item.name }}"
+    - name: Create group per user
+      group: name="{{item.username}}"
+            gid="{{item.gid | default(item.uid) | default(omit)}}"
+      with_items: "{{users}}"
+      loop_control:
+        label: "{{ item.username }}"
+      when: "'group' not in item and users_group_per_user"
+      tags: ['users','configuration']
 
-- name: create ssh_key_directory
-  file:
-    path: "{{ users_ssh_key_directory }}"
-    state: directory
-  delegate_to: localhost
-  become: no
-  run_once: yes
-  with_items:
-    - "{{ users_user_list }}"
-  when:
-    - users_user_list is defined
-    - item.manage_ssh_key is defined
-    - item.manage_ssh_key
-  loop_control:
-    label: "{{ item.name }}"
+    - name: Create users
+      user:
+        name: "{{item.username}}"
+        group: "{{item.group | default(item.username if users_group_per_user else users_group)}}"
+        # empty string removes user from all secondary groups
+        groups: "{{item.groups | join(',') if 'groups' in item else ''}}"
+        append: "{{item.append | default(omit)}}"
+        shell: "{{item.shell if item.shell is defined else users_default_shell}}"
+        password: "{{item.password if item.password is defined else '!'}}"
+        comment: "{{item.name if item.name is defined else ''}}"
+        uid: "{{item.uid | default(omit)}}"
+        home: "{{ item.home | default('/home/' + item.username) }}"
+        createhome: "{{'yes' if users_create_home else 'no'}}"
+        update_password: "{{item.update_password | default(omit)}}"
+      with_items: "{{users}}"
+      loop_control:
+        label: "{{ item.username }}"
+      tags: ['users','configuration']
 
-- name: generate private ssh key
-  command: "{{ users_ssh_keygen_command }}"
-  args:
-    creates: "{{ users_ssh_key_directory }}/{{ item.name }}"
-  with_items:
-    - "{{ users_user_list }}"
-  when:
-    - users_user_list is defined
-    - item.manage_ssh_key is defined
-    - item.manage_ssh_key
-  loop_control:
-    label: "{{ item.name }}"
-  delegate_to: localhost
-  become: no
-  run_once: yes
+    - name: Create cron permission
+      template:
+        src: cron.j2
+        dest: /etc/cron.allow
+      tags: ['users','configuration']
 
-- name: generate public ssh key
-  shell: "{{ users_ssh_keygen_pubkey_command }} > {{ users_ssh_key_directory }}/{{ item.name }}.pub"
-  args:
-    creates: "{{ users_ssh_key_directory }}/{{ item.name }}.pub"
-  with_items:
-    - "{{ users_user_list }}"
-  when:
-    - users_user_list is defined
-    - item.manage_ssh_key is defined
-    - item.manage_ssh_key
-  loop_control:
-    label: "{{ item.name }}"
-  delegate_to: localhost
-  become: no
-  run_once: yes
+    - name: Create sudo options
+      template:
+        src: sudo.j2
+        dest: "/etc/sudoers.d/{{ item.username }}"
+      when: (item.sudo | default('no') | bool)
+      with_items:
+        - "{{users}}"
+      loop_control:
+        label: "{{ item.username }}"
+      tags: ['users','configuration']
 
-- name: read generated public ssh key
-  command: cat "{{ users_ssh_key_directory }}/{{ item.name }}.pub"
-  with_items:
-    - "{{ users_user_list }}"
-  when:
-    - users_user_list is defined
-    - item.manage_ssh_key is defined
-    - item.manage_ssh_key
-  changed_when: no
-  register: ssh_public_key
-  delegate_to: localhost
-  become: no
-  loop_control:
-    label: "{{ item.name }}"
-  run_once: yes
+    - name: Setup SSH keys
+      include_tasks: keys.yml
+      with_items: "{{ users }}"
+      loop_control:
+        loop_var: "{{ users_user }}"
+        label: "{{ item.username }}"
+      when: users_create_home and ((item.generate_ssh_key | default(false) | bool) or item.ssh_key is defined)
+      tags: ['users','configuration']
 
-- name: convert ssh key to ppk
-  shell: >
-         ssh-keygen -e -f "{{ users_ssh_key_directory }}/{{ item.name }}"
-         -C "Generated by Ansible role robertdebock.users"
-         > "{{ users_ssh_key_directory }}/{{ item.name }}.ppk"
-  args:
-    creates: "{{ users_ssh_key_directory }}/{{ item.name }}.ppk"
-  with_items:
-    - "{{ users_user_list }}"
-  when:
-    - users_user_list is defined
-    - item.manage_ssh_key is defined
-    - item.manage_ssh_key
-  delegate_to: localhost
-  become: no
-  loop_control:
-    label: "{{ item.name }}"
-  run_once: yes
+    - name: Setup user profiles
+      blockinfile:
+        block: "{{item.profile}}"
+        dest: "{{ item.home | default('/home/' + item.username) }}/.profile"
+        owner: "{{item.username}}"
+        group: "{{item.group | default(item.username if users_group_per_user else users_group)}}"
+        mode: 0644
+        create: true
+      when: users_create_home and item.profile is defined
+      with_items: "{{users}}"
+      loop_control:
+        label: "{{ item.username }}"
+      tags: ['users','configuration']
 
-- name: place authorized_key
-  authorized_key:
-    user: "{{ item.name }}"
-    state: present
-    key: "{{ item.authorized_key }}"
-  with_items:
-    - "{{ users_user_list }}"
-  when:
-    - users_user_list is defined
-    - item.authorized_key is defined
-  loop_control:
-    label: "{{ item.name }}"
+    - name: Delete users
+      user:
+        name: "{{item.username}}"
+        state: absent
+        remove: "{{item.remove | default(omit)}}"
+        force: "{{item.force | default(omit)}}"
+      with_items: "{{users_delete}}"
+      loop_control:
+        label: "{{ item.username }}"
+      tags: ['users','configuration']
 
-- name: place generated ssh_public_key
-  authorized_key:
-    user: "{{ item.item.name }}"
-    state: present
-    key: "{{ item.stdout }}"
-  with_items:
-    - "{{ ssh_public_key.results }}"
-  when:
-    - ssh_public_key.results is defined
-    - item.item.manage_ssh_key is defined
-    - item.item.manage_ssh_key
-  loop_control:
-    label: "{{ item.item.name }}"
+    - name: Delete group per user
+      group: name="{{item.username}}" state=absent
+      with_items: "{{users_delete}}"
+      when: users_group_per_user
+      loop_control:
+        label: "{{ item.username }}"
+      tags: ['users','configuration']
 
-- name: copy generated private ssh key
-  copy:
-    src: "{{ users_ssh_key_directory }}/{{ item.name }}"
-    dest: .ssh/id_rsa
-  with_items:
-    - "{{ users_user_list }}"
-  when:
-    - users_user_list is defined
-    - item.copy_private_key is defined
-    - item.copy_private_key
-  loop_control:
-    label: "{{ item.name }}"
-  become: yes
-  become_user: "{{ item.name }}"
+    - name: Delete sudo options
+      file:
+        state: absent
+        path: "/etc/sudoers.d/{{ item.username }}"
+      when: not (item.sudo | default('no') | bool)
+      with_items: "{{ users | combine(users_delete) }}"
+      loop_control:
+        label: "{{ item.username }}"
+      tags: ['users','configuration']
