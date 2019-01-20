@@ -3,7 +3,7 @@ users
 
 [![Build Status](https://travis-ci.org/rembik/ansible-role-users.svg?branch=master)](https://travis-ci.org/rembik/ansible-role-users)
 
-The purpose of this role is to manage users and groups on your system.
+The purpose of this role is to manage users and their groups on your system.
 
 Example Playbook
 ----------------

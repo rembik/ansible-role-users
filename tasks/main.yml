@@ -46,7 +46,7 @@
         label: "{{ item.name }}"
       tags: ['users', 'configuration']
 
-    - name: Setup user cron permission
+    - name: Setup users cron permission
       template:
         src: cron.allow.j2
         dest: /etc/cron.allow
@@ -80,7 +80,7 @@
       include_tasks: keys.yml
       with_items: "{{ users }}"
       loop_control:
-        loop_var: "{{ users_user }}"
+        loop_var: users_user
         label: "{{ item.name }}"
       when:
         - item.state | default('present') == 'present'
