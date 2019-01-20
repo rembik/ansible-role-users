@@ -63,6 +63,9 @@
   changed_when: no
   tags: ['users', 'configuration']
 
+- debug:
+    msg: "{{ users_user_ssh_keys }}"
+
 - name: Setup authorized SSH keys
   command: mv -f authorized_keys.tmp authorized_keys
   args:
