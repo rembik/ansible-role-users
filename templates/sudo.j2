@@ -1,2 +1,2 @@
 {{ ansible_managed | comment }}
-{{ item.name }} {{ item.sudo_options | default(users_default_sudo_options, true) }}
+{{ item.name }} {{ item.sudo_options | default(users_sudo_options, true) }}
