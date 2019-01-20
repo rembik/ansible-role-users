@@ -2,107 +2,105 @@
 # tasks file for users
 
 - name: Bootstrap users
-  remote_user: "{{bootstrap_remote_user | default(omit)}}"
+  remote_user: "{{ bootstrap_remote_user | default(omit) }}"
   block:
 
-    - name: Create users groups
-      group: name="{{item.name}}" gid="{{item.gid | default(omit)}}"
-      with_items: "{{users_groups}}"
-      tags: ['users','groups','configuration']
+    - name: Setup users groups
+      group:
+        name: "{{ item.name }}"
+        state: "{{ item.state | default('present') }}"
+        gid: "{{ item.gid | default(omit) }}"
+      with_items: "{{ users_groups }}"
+      tags: ['users', 'groups', 'configuration']
 
-    - name: Create group per user
-      group: name="{{item.username}}"
-            gid="{{item.gid | default(item.uid) | default(omit)}}"
-      with_items: "{{users}}"
+    - name: Setup group per user
+      group:
+        name: "{{ item.name }}"
+        state: "{{ item.state | default('present') }}"
+        gid: "{{ item.gid | default(item.uid) | default(omit) }}"
+      with_items: "{{ users }}"
       loop_control:
-        label: "{{ item.username }}"
+        label: "{{ item.name }}"
       when: "'group' not in item and users_group_per_user"
-      tags: ['users','configuration']
+      tags: ['users', 'configuration']
 
-    - name: Create users
+    - name: Setup users
       user:
-        name: "{{item.username}}"
-        group: "{{item.group | default(item.username if users_group_per_user else users_group)}}"
+        name: "{{ item.name }}"
+        state: "{{ item.state | default('present') }}"
+        group: "{{ item.group | default(item.name if users_group_per_user else users_group) }}"
         # empty string removes user from all secondary groups
-        groups: "{{item.groups | join(',') if 'groups' in item else ''}}"
-        append: "{{item.append | default(omit)}}"
-        shell: "{{item.shell if item.shell is defined else users_default_shell}}"
-        password: "{{item.password if item.password is defined else '!'}}"
-        comment: "{{item.name if item.name is defined else ''}}"
-        uid: "{{item.uid | default(omit)}}"
-        home: "{{ item.home | default('/home/' + item.username) }}"
-        createhome: "{{'yes' if users_create_home else 'no'}}"
-        update_password: "{{item.update_password | default(omit)}}"
-      with_items: "{{users}}"
+        groups: "{{ item.groups | join(', ') if 'groups' in item else '' }}"
+        append: "{{ item.append | default(omit) }}"
+        shell: "{{ item.shell if item.shell is defined else users_default_shell }}"
+        password: "{{ item.password if item.password is defined else '!' }}"
+        comment: "{{ item.comment if item.comment is defined else '' }}"
+        uid: "{{ item.uid | default(omit) }}"
+        home: "{{ item.home | default('/home/' + item.name) }}"
+        createhome: "{{ 'yes' if users_create_home else 'no' }}"
+        update_password: "{{ item.update_password | default(omit) }}"
+        remove: "{{ item.remove | default(omit) }}"
+        force: "{{ item.force | default(omit) }}"
+      with_items: "{{ users }}"
       loop_control:
-        label: "{{ item.username }}"
-      tags: ['users','configuration']
+        label: "{{ item.name }}"
+      tags: ['users', 'configuration']
 
-    - name: Create cron permission
+    - name: Setup cron permissions
       template:
         src: cron.j2
         dest: /etc/cron.allow
-      tags: ['users','configuration']
+      tags: ['users', 'configuration']
 
-    - name: Create sudo options
+    - name: Create user sudo options
       template:
         src: sudo.j2
-        dest: "/etc/sudoers.d/{{ item.username }}"
-      when: (item.sudo | default('no') | bool)
+        dest: "/etc/sudoers.d/{{ item.name }}"
+      when:
+        - (item.sudo | default('no') | bool)
+        - item.state == 'present'
       with_items:
-        - "{{users}}"
+        - "{{ users }}"
       loop_control:
-        label: "{{ item.username }}"
-      tags: ['users','configuration']
+        label: "{{ item.name }}"
+      tags: ['users', 'configuration']
 
-    - name: Setup SSH keys
+    - name: Delete user sudo options
+      file:
+        state: absent
+        path: "/etc/sudoers.d/{{ item.name }}"
+      when:
+        - (not (item.sudo | default('no') | bool) or item.state == 'absent')
+      with_items: "{{ users }}"
+      loop_control:
+        label: "{{ item.name }}"
+      tags: ['users', 'configuration']
+
+    - name: Setup user SSH keys
       include_tasks: keys.yml
       with_items: "{{ users }}"
       loop_control:
         loop_var: "{{ users_user }}"
-        label: "{{ item.username }}"
-      when: users_create_home and ((item.generate_ssh_key | default(false) | bool) or item.ssh_key is defined)
-      tags: ['users','configuration']
+        label: "{{ item.name }}"
+      when:
+        - item.state == 'present'
+        - users_create_home
+        - ((item.generate_ssh_key | default(false) | bool) or item.ssh_key is defined)
+      tags: ['users', 'configuration']
 
     - name: Setup user profiles
       blockinfile:
-        block: "{{item.profile}}"
-        dest: "{{ item.home | default('/home/' + item.username) }}/.profile"
-        owner: "{{item.username}}"
-        group: "{{item.group | default(item.username if users_group_per_user else users_group)}}"
+        block: "{{ item.profile }}"
+        dest: "{{ item.home | default('/home/' + item.name) }}/.profile"
+        owner: "{{ item.name }}"
+        group: "{{ item.group | default(item.name if users_group_per_user else users_group) }}"
         mode: 0644
         create: true
-      when: users_create_home and item.profile is defined
-      with_items: "{{users}}"
+      when:
+        - item.state == 'present'
+        - users_create_home
+        - item.profile is defined
+      with_items: "{{ users }}"
       loop_control:
-        label: "{{ item.username }}"
-      tags: ['users','configuration']
-
-    - name: Delete users
-      user:
-        name: "{{item.username}}"
-        state: absent
-        remove: "{{item.remove | default(omit)}}"
-        force: "{{item.force | default(omit)}}"
-      with_items: "{{users_delete}}"
-      loop_control:
-        label: "{{ item.username }}"
-      tags: ['users','configuration']
-
-    - name: Delete group per user
-      group: name="{{item.username}}" state=absent
-      with_items: "{{users_delete}}"
-      when: users_group_per_user
-      loop_control:
-        label: "{{ item.username }}"
-      tags: ['users','configuration']
-
-    - name: Delete sudo options
-      file:
-        state: absent
-        path: "/etc/sudoers.d/{{ item.username }}"
-      when: not (item.sudo | default('no') | bool)
-      with_items: "{{ users | combine(users_delete) }}"
-      loop_control:
-        label: "{{ item.username }}"
-      tags: ['users','configuration']
+        label: "{{ item.name }}"
+      tags: ['users', 'configuration']

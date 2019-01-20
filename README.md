@@ -1,9 +1,9 @@
 users
 =========
 
-[![Build Status](https://travis-ci.org/robertdebock/ansible-role-users.svg?branch=master)](https://travis-ci.org/robertdebock/ansible-role-users)
+[![Build Status](https://travis-ci.org/rembik/ansible-role-users.svg?branch=master)](https://travis-ci.org/rembik/ansible-role-users)
 
-The purpose of this role is to add users and groups on your system.
+The purpose of this role is to manage users and groups on your system.
 
 Example Playbook
 ----------------
@@ -17,8 +17,8 @@ This example is taken from `molecule/default/playbook.yml`:
   become: true
 
   roles:
-    - robertdebock.bootstrap
-    - robertdebock.users
+    - rembik.bootstrap
+    - rembik.users
 
 ```
 
@@ -32,34 +32,90 @@ These variables are set in `defaults/main.yml`:
 ---
 # defaults file for users
 
-# The location to store ssh keys for user
-users_ssh_key_directory: ssh_keys
+# Create a group for every user and make that their primary group
+users_group_per_user: true
+# If no group per user is created, then this is the primary group all users belong to
+users_group: users
+# Create home dirs for new users (needed for ssh key setup)
+users_create_home: true
+# The default sudo options for a user if sudo is enabled and none are specified
+users_default_sudo_options: "ALL=(ALL) NOPASSWD: ALL"
+# The default shell for a user if none is specified
+users_default_shell: /bin/bash
+# The local directory to find/store generated ssh keys
+users_ssh_key_dir: ssh_keys
 
-# A list of groups and properties.
-# users_group_list:
-#   - name: robertdb
-#     gid: 1024
-#   - name: notgroup
-#     state: absent
+# Lists of users to create or delete
+users: []
 
-# A list of users and properties.
-# users_user_list:
-#   - name: root
-#     cron_allow: yes
-#   - name: robertdb
-#     comment: Robert de Bock
-#     uid: 1024
-#     group: robertdb
-#     groups: users,wheel
-#     cron_allow: yes
-#     sudo_options: "ALL=(ALL) NOPASSWD: ALL"
-#     authorized_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCWswOogkZz/ihQA0lENCwDwSzmtmBWtFwzIzDlfa+eb4rBt6rZBg7enKeMqYtStI/NDneBwZUFBDIMu5zJTbvg7A60/WDhWXZmU21tZnm8K7KREFYOUndc6h//QHig6IIaIwwBZHF1NgXLtZ0qrUUlNU5JSEhDJsObMlPHtE4vFP8twPnfc7hxAnYma5+knU6qTMCDvhBE5tGJdor4UGeAhu+SwSVDloYtt1vGTmnFn8M/OD/fRMksusPefxyshJ37jpB4jY/Z9vzaNHwcj33prwl1b/xRfxr/+KRJsyq+ZKs9u2TVw9g4p+XLdfDtzZ8thR2P3x3MFrZOdFmCbo/5"
-#   - name: notuser
-#     state: absent
-#   - name: keyuser
-#     manage_ssh_key: yes
+# List of user groups to create or delete
+users_groups: []
 
 ```
+
+### Users
+
+Add a users variable containing the list of users to create or delete. A good place to put
+this is in `group_vars/all` or `group_vars/groupname` if you only want the
+users to be on certain machines.
+
+The following attributes are *required* for each user:
+
+* name - The user's name.
+* state - This can be either 'present' or 'absent'
+  - 'present' will create the user (default).
+  - 'absent' will delete the user.
+
+In case, the user should be *created* the following *optional* attributes will take effects:
+
+* comment - The full name of the user (gecos field).
+* home - The home directory of the user to create (defaults to '/home/<user.name>').
+* uid - The numeric user id for the user. This is required for uid consistency
+  across systems.
+* gid - The numeric group id for the group. Otherwise, the
+  uid will be used.
+* password - If a hash is provided then that will be used, but otherwise the
+  account will be locked.
+* update_password - This can be either 'always' or 'on_create'
+  - 'always' will update passwords if they differ (default).
+  - 'on_create' will only set the password for newly created users.
+* group - The overridden primary group for the user (defaults to 'users').
+* groups - The list of supplementary groups for the user.
+* append - If yes, will only add groups, not set them to just the list in groups.
+* cron - Whether to create cron permission for the user.
+* sudo - Whether to create sudo options for the user.
+* sudo_options - The overridden sudo options for the user (default to
+  'ALL=(ALL) NOPASSWD: ALL').
+* shell - The user's shell (defaults to '/bin/bash').
+* profile - The block settings for the custom user shell profile.
+* ssh_key - The list of authorized SSH keys for the user. Each public SSH key
+  should be included directly and should have no newlines.
+* generate_ssh_key - Whether to generate and authorize SSH key for the user.
+
+In case, the user should be *deleted* the following *optional* attributes will take effects:
+
+* uid - The numeric user id for the user. This is required for uid consistency
+  across systems.
+* remove - Whether to remove user's home directory and mail spool.
+* force - Whether to removal user's files.
+
+### User groups
+
+Add a users_groups variable containing the list of user's groups to create or delete. A good place to put
+this is in `group_vars/all` or `group_vars/groupname` if you only want the
+users to be on certain machines.
+
+The following attributes are *required* for each group:
+
+* name - The group's name.
+* state - This can be either 'present' or 'absent'
+  - 'present' will create the group (default).
+  - 'absent' will delete the group.
+
+The following *optional* attributes will take effects:
+
+* gid - The numeric group id for the group. This is required for gid consistency
+  across systems.
 
 Requirements
 ------------
@@ -71,7 +127,7 @@ The following roles can be installed to ensure all requirements are met, using `
 
 ```yaml
 ---
-- robertdebock.bootstrap
+- rembik.bootstrap
 
 ```
 
@@ -112,9 +168,9 @@ A single star means the build may fail, it's marked as an experimental build.
 Testing
 -------
 
-[Unit tests](https://travis-ci.org/robertdebock/ansible-role-users) are done on every commit and periodically.
+[Unit tests](https://travis-ci.org/rembik/ansible-role-users) are done on every commit and periodically.
 
-If you find issues, please register them in [GitHub](https://github.com/robertdebock/ansible-role-users/issues)
+If you find issues, please register them in [GitHub](https://github.com/rembik/ansible-role-users/issues)
 
 To test this role locally please use [Molecule](https://github.com/metacloud/molecule):
 ```
@@ -145,4 +201,4 @@ Apache-2.0
 Author Information
 ------------------
 
-[Robert de Bock](https://robertdebock.nl/) <robert@meinit.nl>
+[Brian Rimek](https://github.com/rembik)

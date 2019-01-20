@@ -5,5 +5,5 @@
   become: yes
 
   roles:
-    - robertdebock.bootstrap
+    - rembik.bootstrap
     - ansible-role-users

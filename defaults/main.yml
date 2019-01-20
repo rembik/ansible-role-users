@@ -14,13 +14,8 @@ users_default_shell: /bin/bash
 # The local directory to find/store generated ssh keys
 users_ssh_key_dir: ssh_keys
 
-# Lists of users to create and delete
+# Lists of users to create or delete
 users: []
-users_delete: []
 
-# List of user groups to create
-# Example:
-#   users_groups:
-#     - name: developers
-#       gid: 10000
+# List of user groups to create or delete
 users_groups: []

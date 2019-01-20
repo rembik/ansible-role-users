@@ -1,6 +1,6 @@
 {{ ansible_managed | comment }}
 {% for user in users %}
-{% if (user.cron | default(false) | bool) %}
-{{ user.username }}
+{% if (user.cron | default(false) | bool) and user.state == 'present' %}
+{{ user.name }}
 {% endif %}
 {% endfor %}
