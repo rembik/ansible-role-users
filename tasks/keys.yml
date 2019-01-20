@@ -20,17 +20,6 @@
   become: no
   tags: ['users', 'configuration']
 
-- name: Generate public SSH key
-  shell: >
-    ssh-keygen -y -f "{{ users_ssh_key_dir }}/{{ users_user.name }}"
-    > "{{ users_ssh_key_dir }}/{{ users_user.name }}.pub"
-  args:
-    creates: "{{ users_ssh_key_dir }}/{{ users_user.name }}.pub"
-  when: users_user.generate_ssh_key | default('no') | bool
-  delegate_to: localhost
-  become: no
-  tags: ['users', 'configuration']
-
 - name: Generate PuTTY SSH key
   shell: >
     ssh-keygen -e -f "{{ users_ssh_key_dir }}/{{ users_user.name }}"

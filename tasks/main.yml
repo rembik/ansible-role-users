@@ -21,24 +21,24 @@
       with_items: "{{ users }}"
       loop_control:
         label: "{{ item.name }}"
-      when: "'group' not in item and users_group_per_user"
+      when: "'group' not in item and users_group_per_user | bool"
       tags: ['users', 'configuration']
 
     - name: Setup users
       user:
         name: "{{ item.name }}"
         state: "{{ item.state | default('present') }}"
-        group: "{{ item.group | default(item.name if users_group_per_user else users_group) }}"
+        uid: "{{ item.uid | default(omit) }}"
+        comment: "{{ item.comment if item.comment is defined else '' }}"
+        group: "{{ item.group | default(item.name if users_group_per_user | bool else users_group) }}"
         # empty string removes user from all secondary groups
         groups: "{{ item.groups | join(', ') if 'groups' in item else '' }}"
         append: "{{ item.append | default(omit) }}"
-        shell: "{{ item.shell if item.shell is defined else users_default_shell }}"
         password: "{{ item.password if item.password is defined else '!' }}"
-        comment: "{{ item.comment if item.comment is defined else '' }}"
-        uid: "{{ item.uid | default(omit) }}"
-        home: "{{ item.home | default('/home/' + item.name) }}"
-        createhome: "{{ 'yes' if users_create_home else 'no' }}"
         update_password: "{{ item.update_password | default(omit) }}"
+        create_home: "{{ item.create_home | default('yes' if users_create_home | bool else 'no') }}"
+        home: "{{ item.home | default('/home/' + item.name) }}"
+        shell: "{{ item.shell if item.shell is defined else users_default_shell }}"
         remove: "{{ item.remove | default(omit) }}"
         force: "{{ item.force | default(omit) }}"
       with_items: "{{ users }}"
@@ -57,8 +57,8 @@
         src: sudo.j2
         dest: "/etc/sudoers.d/{{ item.name }}"
       when:
-        - item.sudo | default('no') | bool
         - item.state | default('present') == 'present'
+        - item.sudo | default('no') | bool
       with_items:
         - "{{ users }}"
       loop_control:
@@ -84,7 +84,7 @@
         label: "{{ users_user.name }}"
       when:
         - users_user.state | default('present') == 'present'
-        - users_create_home
+        - users_create_home | bool
         - (users_user.generate_ssh_key | default('no') | bool or users_user.ssh_key is defined)
       tags: ['users', 'configuration']
 
@@ -93,12 +93,12 @@
         block: "{{ item.profile }}"
         dest: "{{ item.home | default('/home/' + item.name) }}/.profile"
         owner: "{{ item.name }}"
-        group: "{{ item.group | default(item.name if users_group_per_user else users_group) }}"
+        group: "{{ item.group | default(item.name if users_group_per_user | bool else users_group) }}"
         mode: 0644
         create: true
       when:
         - item.state | default('present') == 'present'
-        - users_create_home
+        - users_create_home | bool
         - item.profile is defined
       with_items: "{{ users }}"
       loop_control:

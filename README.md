@@ -1,5 +1,5 @@
-users
-=========
+Ansible Role: Users
+===================
 
 [![Build Status](https://travis-ci.org/rembik/ansible-role-users.svg?branch=master)](https://travis-ci.org/rembik/ansible-role-users)
 
@@ -17,8 +17,31 @@ This example is taken from `molecule/default/playbook.yml`:
   become: true
 
   roles:
-    - rembik.bootstrap
-    - rembik.users
+    - role: rembik.bootstrap
+    - role: rembik.users
+      vars:
+        users_groups:
+          - name: users
+            gid: 3000
+        users:
+          - name: nouser
+            comment: No User
+            uid: 3001
+            groups: [users]
+            create_home: no
+          - name: admin
+            comment: Ansible Management User
+            uid: 2000
+            groups: [users, bin]
+            cron: yes
+            sudo: yes
+            shell: /bin/sh
+            profile: |
+              alias ll='ls -lah'
+              alias cp='cp -iv'
+            ssh_key:
+              - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVpUJQCOaPg3p5xro9e+1fkGRWNOGrrExiKMqTE91Fwu349bxfMnMzRS0PAERouR9EEL+Ee4Yzhav/uNc35eCtXzACtluXnAncMrQj6pM3IqASynhvXTygHljmcMbBSDQtLrTZeW+YzIcOgk5UM1yBi26WoUYva2aCr9IRvKdYreAK08OiMdZedpOye0ZdvIYJGcyITwc6YMmrAhP7jZlrk/mDEkf2a4eBp+475o7MJtaC9npqYkToM8vqvx5AGEKqXt7/f1/paOY7KsR+VGPQy6k2RkXjWBsXPesZ3d3XLZHE60wAk0EsuJO8A25+uWSB6ILQeRSYYmGea/WIf6kd noone@throwaway.example.com"
+            generate_ssh_key: yes
 
 ```
 
@@ -32,16 +55,21 @@ These variables are set in `defaults/main.yml`:
 ---
 # defaults file for users
 
-# Create a group for every user and make that their primary group
-users_group_per_user: true
-# If no group per user is created, then this is the primary group all users belong to
+# The default value, whether to create a group for every user
+# and make that their primary group
+users_group_per_user: yes
+# If no group per user is created, then this is the default primary
+# group all users belong to
 users_group: users
-# Create home dirs for new users (needed for ssh key setup)
-users_create_home: true
-# The default sudo options for a user if sudo is enabled and none are specified
-users_default_sudo_options: "ALL=(ALL) NOPASSWD: ALL"
-# The default shell for a user if none is specified
-users_default_shell: /bin/bash
+# The default value, whether to create home directory for the user
+# when the account is created or if the home directory does not exist
+# (needed for ssh key setup)
+users_create_home: yes
+# The default sudo options for the user when sudo is enabled,
+# but none are specified
+users_sudo_options: "ALL=(ALL) NOPASSWD: ALL"
+# The default shell for the user when none is specified
+users_shell: /bin/bash
 # The local directory to find/store generated ssh keys
 users_ssh_key_dir: ssh_keys
 
@@ -53,68 +81,65 @@ users_groups: []
 
 ```
 
-### Users
+Add `users` variable containing the list of users to create or delete.
+A good place to put this is in `group_vars/all` or `group_vars/groupname`,
+if you only want the users to be on certain machines.
 
-Add a users variable containing the list of users to create or delete. A good place to put
-this is in `group_vars/all` or `group_vars/groupname` if you only want the
-users to be on certain machines.
+The following attributes are **required** for each user:
 
-The following attributes are *required* for each user:
+* `name` - The user name.
+* `state` - This can be either *present* or *absent*
+  - *present* will create the user (default).
+  - *absent* will delete the user.
 
-* name - The user's name.
-* state - This can be either 'present' or 'absent'
-  - 'present' will create the user (default).
-  - 'absent' will delete the user.
+In case, the user should be **created** the following **optional** attributes will take effects:
 
-In case, the user should be *created* the following *optional* attributes will take effects:
-
-* comment - The full name of the user (gecos field).
-* home - The home directory of the user to create (defaults to '/home/<user.name>').
-* uid - The numeric user id for the user. This is required for uid consistency
+* `uid` - The numeric user id for the user. This is required for uid consistency
   across systems.
-* gid - The numeric group id for the group. Otherwise, the
+* `gid` - The numeric group id for the group per user. Otherwise, the
   uid will be used.
-* password - If a hash is provided then that will be used, but otherwise the
+* `comment` - The full name of the user (gecos field).
+* `group` - The overridden primary group for the user (default: *<user.name>*).
+* `groups` - The list of supplementary groups for the user.
+* `append` - If yes, will only add groups, not set them to just the list in groups.
+* `password` - If a hash is provided then that will be used, but otherwise the
   account will be locked.
-* update_password - This can be either 'always' or 'on_create'
-  - 'always' will update passwords if they differ (default).
-  - 'on_create' will only set the password for newly created users.
-* group - The overridden primary group for the user (defaults to 'users').
-* groups - The list of supplementary groups for the user.
-* append - If yes, will only add groups, not set them to just the list in groups.
-* cron - Whether to create cron permission for the user.
-* sudo - Whether to create sudo options for the user.
-* sudo_options - The overridden sudo options for the user (default to
-  'ALL=(ALL) NOPASSWD: ALL').
-* shell - The user's shell (defaults to '/bin/bash').
-* profile - The block settings for the custom user shell profile.
-* ssh_key - The list of authorized SSH keys for the user. Each public SSH key
+* `update_password` - This can be either *always* or *on_create*
+  - *always* will update passwords if they differ (default).
+  - *on_create* will only set the password for newly created users.
+* `create_home` - The overridden value, whether to create home directory for the user when the account is created or if the home directory does not exist (default: *yes*).
+* `home` - The home directory of the user (default: */home/<user.name>*).
+* `shell` - The overridden shell for the user (default: */bin/bash*).
+* `profile` - The block to expand settings for the user profile.
+* `cron` - If *yes*, set cron permission for the user (default: *no*).
+* `sudo` - If *yes*, set sudo options for the user (default: *no*).
+* `sudo_options` - The overridden sudo options for the user (default:
+  *ALL=(ALL) NOPASSWD: ALL*).
+* `ssh_key` - The list of authorized SSH keys for the user. Each public SSH key
   should be included directly and should have no newlines.
-* generate_ssh_key - Whether to generate and authorize SSH key for the user.
+* `generate_ssh_key` - If *yes*, generate and authorize SSH key for the user (default: *no*).
 
-In case, the user should be *deleted* the following *optional* attributes will take effects:
+In case, the user should be **deleted** the following **optional** attributes will take effects:
 
-* uid - The numeric user id for the user. This is required for uid consistency
+* `uid` - The numeric user id for the user. This is required for uid consistency
   across systems.
-* remove - Whether to remove user's home directory and mail spool.
-* force - Whether to removal user's files.
+* `remove` - If *yes*, remove user's home directory and mail spool (default: *no*).
+* `force` - If *yes*, removal user's directories (default: *no*).
 
-### User groups
+Add `users_groups` variable containing the list of user groups to create or delete.
+A good place to put this is in `group_vars/all` or `group_vars/groupname`,
+if you only want the user groups to be on certain machines.
 
-Add a users_groups variable containing the list of user's groups to create or delete. A good place to put
-this is in `group_vars/all` or `group_vars/groupname` if you only want the
-users to be on certain machines.
+The following attributes are **required** for each user group:
 
-The following attributes are *required* for each group:
+* `name` - The group name.
+* `state` - This can be either *present* or *absent*
+  - *present* will create the group (default).
+  - *absent* will delete the group.
 
-* name - The group's name.
-* state - This can be either 'present' or 'absent'
-  - 'present' will create the group (default).
-  - 'absent' will delete the group.
+The following **optional** attributes will take effects:
 
-The following *optional* attributes will take effects:
-
-* gid - The numeric group id for the group. This is required for gid consistency
+* `gid` - The numeric group id for the group. This is required for gid consistency
   across systems.
 
 Requirements

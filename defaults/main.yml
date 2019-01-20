@@ -1,16 +1,21 @@
 ---
 # defaults file for users
 
-# Create a group for every user and make that their primary group
-users_group_per_user: true
-# If no group per user is created, then this is the group all users belong to
+# The default value, whether to create a group for every user
+# and make that their primary group
+users_group_per_user: yes
+# If no group per user is created, then this is the default primary
+# group all users belong to
 users_group: users
-# Create home dirs for new users
-users_create_home: true
-# The default sudo option for a user if sudo is enabled and none option is specified
-users_default_sudo_options: "ALL=(ALL) NOPASSWD: ALL"
-# The default shell for a user if none is specified
-users_default_shell: /bin/bash
+# The default value, whether to create home directory for the user
+# when the account is created or if the home directory does not exist
+# (needed for ssh key setup)
+users_create_home: yes
+# The default sudo options for the user when sudo is enabled,
+# but none are specified
+users_sudo_options: "ALL=(ALL) NOPASSWD: ALL"
+# The default shell for the user when none is specified
+users_shell: /bin/bash
 # The local directory to find/store generated ssh keys
 users_ssh_key_dir: ssh_keys
 
