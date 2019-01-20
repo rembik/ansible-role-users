@@ -46,7 +46,7 @@
         label: "{{ item.name }}"
       tags: ['users', 'configuration']
 
-    - name: Setup cron permissions
+    - name: Setup user cron permission
       template:
         src: cron.allow.j2
         dest: /etc/cron.allow
@@ -57,7 +57,7 @@
         src: sudo.j2
         dest: "/etc/sudoers.d/{{ item.name }}"
       when:
-        - (item.sudo | default(no) | bool)
+        - (item.sudo | default('no') | bool)
         - item.state == 'present'
       with_items:
         - "{{ users }}"
@@ -70,7 +70,7 @@
         state: absent
         path: "/etc/sudoers.d/{{ item.name }}"
       when:
-        - (not (item.sudo | default(no) | bool) or item.state == 'absent')
+        - (not (item.sudo | default('no') | bool) or item.state == 'absent')
       with_items: "{{ users }}"
       loop_control:
         label: "{{ item.name }}"
@@ -85,10 +85,10 @@
       when:
         - item.state == 'present'
         - users_create_home
-        - ((item.generate_ssh_key | default(no) | bool) or item.ssh_key is defined)
+        - ((item.generate_ssh_key | default('no') | bool) or item.ssh_key is defined)
       tags: ['users', 'configuration']
 
-    - name: Setup user profiles
+    - name: Setup user profile
       blockinfile:
         block: "{{ item.profile }}"
         dest: "{{ item.home | default('/home/' + item.name) }}/.profile"
