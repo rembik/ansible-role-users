@@ -42,20 +42,6 @@
   become: no
   tags: ['users', 'configuration']
 
-- name: Copy generated SSH key pair
-  copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-  with_items:
-    - src: "{{ users_ssh_key_dir }}/{{ users_user.name }}"
-      dest: "{{ users_user.home | default('/home/' + users_user.name) }}/.ssh/id_rsa"
-    - src: "{{ users_ssh_key_dir }}/{{ users_user.name }}.pub"
-      dest: "{{ users_user.home | default('/home/' + users_user.name) }}/.ssh/id_rsa.pub"
-  when: users_user.generate_ssh_key | default('no') | bool
-  become: yes
-  become_user: "{{ users_user.name }}"
-  tags: ['users', 'configuration']
-
 - name: Pre-setup authorized SSH keys
   authorized_key:
     user: "{{ users_user.name }}"
@@ -83,4 +69,18 @@
     chdir: "{{ users_user.home | default('/home/' + users_user.name) }}/.ssh"
     removes: "{{ users_user.home | default('/home/' + users_user.name) }}/.ssh/authorized_keys.tmp"
   changed_when: users_user_ssh_keys.results[0].stat.checksum != users_user_ssh_keys.results[1].stat.checksum
+  tags: ['users', 'configuration']
+
+- name: Copy generated SSH key pair
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - src: "{{ users_ssh_key_dir }}/{{ users_user.name }}"
+      dest: "{{ users_user.home | default('/home/' + users_user.name) }}/.ssh/id_rsa"
+    - src: "{{ users_ssh_key_dir }}/{{ users_user.name }}.pub"
+      dest: "{{ users_user.home | default('/home/' + users_user.name) }}/.ssh/id_rsa.pub"
+  when: users_user.generate_ssh_key | default('no') | bool
+  become: yes
+  become_user: "{{ users_user.name }}"
   tags: ['users', 'configuration']
