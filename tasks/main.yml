@@ -57,8 +57,8 @@
         src: sudo.j2
         dest: "/etc/sudoers.d/{{ item.name }}"
       when:
-        - (item.sudo | default('no') | bool)
-        - item.state == 'present'
+        - item.sudo | default('no') | bool
+        - item.state | default('present') == 'present'
       with_items:
         - "{{ users }}"
       loop_control:
@@ -70,7 +70,7 @@
         state: absent
         path: "/etc/sudoers.d/{{ item.name }}"
       when:
-        - (not (item.sudo | default('no') | bool) or item.state == 'absent')
+        - (not item.sudo | default('no') | bool or item.state | default('present') == 'absent')
       with_items: "{{ users }}"
       loop_control:
         label: "{{ item.name }}"
@@ -83,9 +83,9 @@
         loop_var: "{{ users_user }}"
         label: "{{ item.name }}"
       when:
-        - item.state == 'present'
+        - item.state | default('present') == 'present'
         - users_create_home
-        - ((item.generate_ssh_key | default('no') | bool) or item.ssh_key is defined)
+        - (item.generate_ssh_key | default('no') | bool or item.ssh_key is defined)
       tags: ['users', 'configuration']
 
     - name: Setup user profile
@@ -97,7 +97,7 @@
         mode: 0644
         create: true
       when:
-        - item.state == 'present'
+        - item.state | default('present') == 'present'
         - users_create_home
         - item.profile is defined
       with_items: "{{ users }}"
