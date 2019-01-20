@@ -63,15 +63,14 @@
   changed_when: no
   tags: ['users', 'configuration']
 
-- debug:
-    msg: "{{ users_user_ssh_keys }}"
-
 - name: Setup authorized SSH keys
   command: mv -f authorized_keys.tmp authorized_keys
   args:
     chdir: "{{ users_user.home | default('/home/' + users_user.name) }}/.ssh"
     removes: "{{ users_user.home | default('/home/' + users_user.name) }}/.ssh/authorized_keys.tmp"
-  changed_when: users_user_ssh_keys.results[0].stat.checksum != users_user_ssh_keys.results[1].stat.checksum
+  changed_when: 
+    - users_user_ssh_keys.results[0].stat.checksum | default('') !=
+      users_user_ssh_keys.results[1].stat.checksum | default('')
   tags: ['users', 'configuration']
 
 - name: Copy generated SSH key pair
