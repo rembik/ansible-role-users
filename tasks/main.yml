@@ -81,11 +81,11 @@
       with_items: "{{ users }}"
       loop_control:
         loop_var: users_user
-        label: "{{ item.name }}"
+        label: "{{ users_user.name }}"
       when:
-        - item.state | default('present') == 'present'
+        - users_user.state | default('present') == 'present'
         - users_create_home
-        - (item.generate_ssh_key | default('no') | bool or item.ssh_key is defined)
+        - (users_user.generate_ssh_key | default('no') | bool or users_user.ssh_key is defined)
       tags: ['users', 'configuration']
 
     - name: Setup user profile
