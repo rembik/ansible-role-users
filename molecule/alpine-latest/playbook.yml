@@ -8,7 +8,6 @@
     - role: rembik.bootstrap
     - role: ansible-role-users
       vars:
-        users_group_per_user: yes
         users_groups:
           - name: users
             gid: 3000
@@ -22,7 +21,6 @@
           - name: admin
             comment: Ansible Management User
             uid: 2000
-            group: admin
             groups: [users, bin]
             cron: yes
             sudo: yes
@@ -31,6 +29,13 @@
               alias ll='ls -lah'
               alias cp='cp -iv'
             generate_ssh_key: yes
+
+- name: Converge
+  hosts: all
+  gather_facts: false
+  become: true
+
+  roles:
     - role: ansible-role-users
       vars:
         users_group_per_user: no
