@@ -50,6 +50,7 @@
       template:
         src: cron.allow.j2
         dest: /etc/cron.allow
+      changed_when: no
       tags: ['users', 'configuration']
 
     - name: Create user sudo options
@@ -85,7 +86,6 @@
       when:
         - users_user.state | default('present') == 'present'
         - users_create_home | bool
-        - (users_user.generate_ssh_key | default('no') | bool or users_user.ssh_key is defined)
       tags: ['users', 'configuration']
 
     - name: Setup user profile

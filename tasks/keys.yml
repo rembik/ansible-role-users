@@ -31,6 +31,16 @@
   become: no
   tags: ['users', 'configuration']
 
+- name: Prepare authorized SSH keys
+  file:
+    state: touch
+    path: "{{ users_user.home | default('/home/' + users_user.name) }}/.ssh/authorized_keys.tmp"
+    mode: 0600
+    owner: "{{ users_user.name }}"
+    group: "{{ users_user.group | default(users_user.name if users_group_per_user else users_group) }}"
+  changed_when: no
+  tags: ['users', 'configuration']
+
 - name: Pre-setup authorized SSH keys
   authorized_key:
     user: "{{ users_user.name }}"
