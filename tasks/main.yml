@@ -85,7 +85,7 @@
         label: "{{ users_user.name }}"
       when:
         - users_user.state | default('present') == 'present'
-        - users_create_home | bool
+        - users_user.create_home | default(users_create_home) | bool
       tags: ['users', 'configuration']
 
     - name: Setup user profile
@@ -98,7 +98,7 @@
         create: true
       when:
         - item.state | default('present') == 'present'
-        - users_create_home | bool
+        - users_user.create_home | default(users_create_home) | bool
         - item.profile is defined
       with_items: "{{ users }}"
       loop_control:
