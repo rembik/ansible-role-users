@@ -10,7 +10,6 @@
       vars:
         users_groups:
           - name: users
-            gid: 2000
           - name: bin
         users:
           - name: nouser
@@ -18,7 +17,7 @@
             create_home: no
           - name: admin
             comment: Ansible Management User
-            uid: 2001
+            uid: 1001
             groups: [users, bin]
             cron: yes
             sudo: yes
@@ -31,12 +30,12 @@
             generate_ssh_key: yes
           - name: test
             comment: Ansible Test User
-            uid: 2002
+            uid: 1002
             groups: [users]
             home: /test
             cron: yes
             generate_ssh_key: yes
           - name: user
             comment: User
-            uid: 2003
+            uid: 1003
             groups: [users]
