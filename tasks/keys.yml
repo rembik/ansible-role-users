@@ -41,10 +41,10 @@
   with_items:
     - path: .ssh
       state: directory
-      mode: 0700
+      mode: "700"
     - path: .ssh/authorized_keys.tmp
       state: touch
-      mode: 0600
+      mode: "600"
   changed_when: no
   tags: ['users', 'configuration']
 

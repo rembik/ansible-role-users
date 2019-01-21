@@ -106,7 +106,7 @@
         owner: "{{ item.name }}"
         group: "{{ item.group | default(item.name if users_group_per_user | bool else users_group) }}"
         mode: 0644
-        create: true
+        create: yes
       when:
         - item.state | default('present') == 'present'
         - users_user.create_home | default(users_create_home) | bool
