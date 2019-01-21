@@ -11,6 +11,7 @@
         users_groups:
           - name: users
             gid: 3000
+          - name: bin
         users:
           - name: nouser
             comment: No User
@@ -18,9 +19,9 @@
             groups: [users]
             create_home: no
           - name: admin
-            group: admin
             comment: Ansible Management User
             uid: 2000
+            group: admin
             groups: [users, bin]
             cron: yes
             sudo: yes
@@ -53,4 +54,6 @@
           - name: test
             comment: Ansible Test User
             uid: 3003
+            home: /test
+            cron: yes
             generate_ssh_key: yes
