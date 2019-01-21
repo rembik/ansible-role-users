@@ -64,7 +64,7 @@
         label: "{{ item.name }}"
       tags: ['users', 'configuration']
 
-    - name: Create user sudo options
+    - name: Add user sudo options
       template:
         src: sudo.j2
         dest: "/etc/sudoers.d/{{ item.name }}"
@@ -77,7 +77,7 @@
         label: "{{ item.name }}"
       tags: ['users', 'configuration']
 
-    - name: Delete user sudo options
+    - name: Remove user sudo options
       file:
         state: absent
         path: "/etc/sudoers.d/{{ item.name }}"
@@ -109,7 +109,7 @@
         create: yes
       when:
         - item.state | default('present') == 'present'
-        - users_user.create_home | default(users_create_home) | bool
+        - item.create_home | default(users_create_home) | bool
         - item.profile is defined
       with_items: "{{ users }}"
       loop_control:

@@ -1,7 +1,7 @@
 ---
 # tasks file for user keys
 
-- name: Create local SSH key directory
+- name: Prepare local SSH key directory
   file:
     path: "{{ users_ssh_key_dir }}"
     state: directory
@@ -79,7 +79,7 @@
       users_user_ssh_keys.results[1].stat.checksum | default('')
   tags: ['users', 'configuration']
 
-- name: Copy generated SSH key pair
+- name: Deploy generated SSH key pair
   copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
