@@ -2,7 +2,7 @@
 galaxy_info:
   author: Brian Rimek
   role_name: users
-  description: The purpose of this role is to manage users and their groups on your system.
+  description: This role manages users and their groups on your system..
   license: Apache-2.0
   company: none
   min_ansible_version: 2.6
