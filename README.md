@@ -22,7 +22,6 @@ This example is taken from `molecule/default/playbook.yml`:
       vars:
         users_groups:
           - name: users
-            gid: 2000
           - name: bin
         users:
           - name: nouser
