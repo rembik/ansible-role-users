@@ -33,11 +33,18 @@
 
 - name: Prepare authorized SSH keys
   file:
-    state: touch
-    path: "{{ users_user.home | default('/home/' + users_user.name) }}/.ssh/authorized_keys.tmp"
-    mode: 0600
+    state: "{{ item.state }}"
+    path: "{{ users_user.home | default('/home/' + users_user.name) }}/{{ item.path }}"
+    mode: "{{ item.mode }}"
     owner: "{{ users_user.name }}"
     group: "{{ users_user.group | default(users_user.name if users_group_per_user else users_group) }}"
+  with_items:
+    - path: .ssh
+      state: directory
+      mode: 0700
+    - path: .ssh/authorized_keys.tmp
+      state: touch
+      mode: 0600
   changed_when: no
   tags: ['users', 'configuration']
 

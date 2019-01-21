@@ -46,11 +46,22 @@
         label: "{{ item.name }}"
       tags: ['users', 'configuration']
 
-    - name: Setup users cron permission
+    - name: Prepare users cron permission
       template:
         src: cron.allow.j2
         dest: /etc/cron.allow
-      changed_when: no
+        force: no
+      tags: ['users', 'configuration']
+
+    - name: Setup users cron permission
+      lineinfile:
+        state: "{{ 'present' if item.cron | default('no') | bool
+                and item.state | default('present') == 'present' else 'absent' }}"
+        path: /etc/cron.allow
+        line: "{{ item.name }}"
+      with_items: "{{ users }}"
+      loop_control:
+        label: "{{ item.name }}"
       tags: ['users', 'configuration']
 
     - name: Create user sudo options
