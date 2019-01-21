@@ -8,6 +8,7 @@
     - role: rembik.bootstrap
     - role: ansible-role-users
       vars:
+        users_group_per_user: yes
         users_groups:
           - name: users
             gid: 3000
