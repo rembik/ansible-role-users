@@ -54,7 +54,7 @@ users: []
 users_groups: []
 
 ```
-A good place to put replacements for these and following variables is in `group_vars/all` or `group_vars/group_name`,
+A good place to put replacements for these variables is in `group_vars/all` or `group_vars/group_name`,
 if you only want defined users and groups to be on certain machines.
 
 The `users` variable containing the list of users to create, remove or modify.
@@ -97,8 +97,7 @@ The following parameters are available for each group dictionary:
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to
-be set for other roles, or variables that are used from other roles.
+In general this role has no dependencies. In combination with the recommended role [`rembik.bootstrap`](https://github.com/rembik/ansible-role-bootstrap), this role uses the temporary registered `bootstrap_remote_user` to connect to the remote host and executing this role tasks.
 
 Example Playbook
 ----------------
@@ -152,59 +151,32 @@ This example is taken from `molecule/default/playbook.yml`:
 Role Tests
 -----
 
-This role has been tested against the following distributions and Ansible version:
+This role has been tested against the following Linux distributions and Ansible versions:
 
-|distribution|ansible 2.6|ansible 2.7|ansible devel|
-|------------|-----------|-----------|-------------|
-|alpine-edge*|yes|yes|yes*|
-|alpine-latest|yes|yes|yes*|
-|archlinux|yes|yes|yes*|
-|centos-6|yes|yes|yes*|
-|centos-latest|yes|yes|yes*|
-|debian-latest|yes|yes|yes*|
-|debian-stable|yes|yes|yes*|
-|debian-unstable*|yes|yes|yes*|
-|fedora-latest|yes|yes|yes*|
-|fedora-rawhide*|yes|yes|yes*|
-|opensuse-leap|yes|yes|yes*|
-|opensuse-tumbleweed|yes|yes|yes*|
-|ubuntu-artful|yes|yes|yes*|
-|ubuntu-devel*|yes|yes|yes*|
-|ubuntu-latest|yes|yes|yes*|
+| Distribution ||
+|---|---|
+| [![Distro](https://img.shields.io/badge/Alpine-latest%20%7C%20edge%20(%3F)-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | ![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%20(%3F)-56b4b6.svg) |
+| [![Distro](https://img.shields.io/badge/ArchLinux-latest-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | ![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%20(%3F)-56b4b6.svg) |
+| [![Distro](https://img.shields.io/badge/CentOS-6%20%7C%20latest-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | ![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%20(%3F)-56b4b6.svg) |
+| [![Distro](https://img.shields.io/badge/Debian-latest%20%7C%20stable%20%7C%20unstable%20(%3F)-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | ![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%20(%3F)-56b4b6.svg) |
+| [![Distro](https://img.shields.io/badge/Fedora-latest%20%7C%20rawhide%20(%3F)-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | ![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%20(%3F)-56b4b6.svg) |
+| [![Distro](https://img.shields.io/badge/openSUSE-Leap%20%7C%20Tumbleweed-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | ![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%20(%3F)-56b4b6.svg) |
+| [![Distro](https://img.shields.io/badge/Ubuntu-artful%20%7C%20latest%20%7C%20devel%20(%3F)-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | ![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%20(%3F)-56b4b6.svg) |
 
-A single star means the build may fail, it's marked as an experimental build.
+> (?) means the build is allowed to fail, it's marked as an experimental build.
 
-[Unit tests](https://travis-ci.org/rembik/ansible-role-users) are done on every commit and periodically.
+Contributing
+------------
 
-If you find issues, please register them in [GitHub](https://github.com/rembik/ansible-role-users/issues)
-
-To test this role locally please use [Molecule](https://github.com/metacloud/molecule):
-```
-pip install molecule
-molecule test
-```
-
-To test on Amazon EC2, configure [~/.aws/credentials](https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html) and `export AWS_REGION=eu-central-1` before running `molecule test --scenario-name ec2`.
-
-There are many specific scenarios available, please have a look in the `molecule/` directory.
-
-Run the [ansible-galaxy](https://github.com/ansible/galaxy-lint-rules) and [my](https://github.com/robertdebock/ansible-lint-rules) lint rules if you want your change to be merges:
-
-```shell
-git clone https://github.com/ansible/ansible-lint.git /tmp/ansible-lint
-ansible-lint -r /tmp/ansible-lint/lib/ansiblelint/rules .
-
-git clone https://github.com/robertdebock/ansible-lint /tmp/my-ansible-lint
-ansible-lint -r /tmp/my-ansible-lint/rules .
-```
+If you find issues, please register them in [GitHub](https://github.com/rembik/ansible-role-users/issues) or consider contributing by opening a pull request and following the [contributing](CONTRIBUTING.md) guideline.
 
 License
 -------
 
 Apache-2.0
 
-
 Author Information
 ------------------
 
-[Brian Rimek](https://github.com/rembik)
+- [Robert de Bock](https://robertdebock.nl/) <robert@meinit.nl>
+- [Brian Rimek](https://github.com/rembik)
