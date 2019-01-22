@@ -69,7 +69,7 @@ The following parameters are available for each user dictionary:
 | `uid` || Optionally sets the UID of the user. |
 | `group` | Default: **`user.name`** | Optionally overrides the user's primary group taken from `users_group_per_user=yes` or `users_group` (takes a group name). |
 | `gid` || This only affects `users_group_per_user=yes`. Optionally sets different GID of user's primary group. Otherwise the UID will be used. |
-| `groups` || List of groups user will be added to. When set to an empty string '', null, or ~, the user is removed from all groups except the primary group. (~ means null in YAML) |
+| `groups` || List of groups user will be added to. When set to an empty string the user is removed from all groups except the primary group. |
 | `append` | Choices:<ul><li>**no**</li><li>yes</li></ul> | If *yes*, add the user to the groups specified in `groups`. If *no*, user will only be added to the groups specified in `groups`, removing them from all other groups. |
 | `password` | Default: **!**| Optionally set the user's password to this crypted value. Otherwise the user account will be locked. |
 | `update_password` | Choices:<ul><li>**always**</li><li>on_create</li></ul> | *always* will update passwords if they differ. *on_create* will only set the password for newly created users. |
@@ -77,13 +77,13 @@ The following parameters are available for each user dictionary:
 | `home` | Default: **/home/`user.name`** | Optionally set the user's home directory. |
 | `shell` | Default: **/bin/bash** | Optionally overrides the user's shell taken from `users_shell`. |
 | `profile` || Optionally sets custom block into user's profile. *Requires `user.create_home=yes`!* |
-| `cron` | Choices:<ul><li>**no**</li><li>yes</li></ul> | If *yes*, permit the user to create, edit, display, or remove crontab files. |
-| `sudo` | Choices:<ul><li>**no**</li><li>yes</li></ul> | If *yes*, set the user's sudo options taken from `user.sudo_options`. |
+| `cron` | Choices:<ul><li>**no**</li><li>yes</li></ul> | If *yes*, allow the user to create, edit, display, or remove crontab files. Otherwise, disallow to modify crontab files. |
+| `sudo` | Choices:<ul><li>**no**</li><li>yes</li></ul> | If *yes*, set the user's sudo options taken from `user.sudo_options`. Otherwise, remove the user's sudo options. |
 | `sudo_options` | Default: **ALL=(ALL) NOPASSWD: ALL**| Optionally overrides the user's sudo options taken from `users_sudo_options`. |
 | `ssh_key` || List of the users's authorized SSH keys (takes public SSH keys; included directly and without newlines). When set to an empty list or string all the users's authorized SSH keys are removed. *Requires `user.create_home=yes`!* |
 | `generate_ssh_key` | Choices:<ul><li>**no**</li><li>yes</li></ul> | Unless set to *no*, generate the user's SSH key pair, if the SSH key does not exists in the local directory `users_ssh_key_dir`. After that, add it to the users's authorized SSH keys and deploy the SSH key pair to the user. *Requires `user.create_home=yes`!* |
 | `remove` | Choices:<ul><li>**no**</li><li>yes</li></ul> | This only affects `user.state=absent`, it attempts to remove directories associated with the user. The behavior is the same as *userdel --remove*, check the man page for details and support. |
-|`force` | Choices:<ul><li>**no**</li><li>yes</li></ul> | his only affects `user.state=absent`, it forces removal of the user and associated directories on supported platforms. The behavior is the same as *userdel --force*, check the man page for details and support. |
+|`force` | Choices:<ul><li>**no**</li><li>yes</li></ul> | This only affects `user.state=absent`, it forces removal of the user and associated directories on supported platforms. The behavior is the same as *userdel --force*, check the man page for details and support. |
 
 The `users_groups` variable containing the list of user groups to create or delete. Each group in this list is defined as an dictionary.
 The following parameters are available for each group dictionary:
