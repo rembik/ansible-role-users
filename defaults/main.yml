@@ -9,9 +9,8 @@ users_group_per_user: yes
 users_group: users
 # The default value, whether to create home directory for the user
 # when the account is created or if the home directory does not exist
-# (needed for ssh key setup)
 users_create_home: yes
-# The default sudo options for the user when sudo is enabled,
+# The default sudo options for the user when sudo is set to yes,
 # but none are specified
 users_sudo_options: "ALL=(ALL) NOPASSWD: ALL"
 # The default shell for the user when none is specified
@@ -19,7 +18,7 @@ users_shell: /bin/bash
 # The local directory to find/store generated ssh keys
 users_ssh_key_dir: ssh_keys
 
-# Lists of users to create or delete
+# Lists of users to create, remove or modify
 users: []
 
 # List of user groups to create or delete

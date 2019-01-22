@@ -12,7 +12,7 @@ Requirements
 ------------
 
 - Access to a repository containing packages, likely on the internet.
-- A recent Ansible version (Tests run on last 3 Minor versions).
+- A recent Ansible version (tested last 3 major versions).
 
 The following roles can be installed to ensure all requirements are met, using `ansible-galaxy install -r requirements.yml`:
 
@@ -38,9 +38,8 @@ users_group_per_user: yes
 users_group: users
 # The default value, whether to create home directory for the user
 # when the account is created or if the home directory does not exist
-# (needed for ssh key setup)
 users_create_home: yes
-# The default sudo options for the user when sudo is enabled,
+# The default sudo options for the user when sudo is set to yes,
 # but none are specified
 users_sudo_options: "ALL=(ALL) NOPASSWD: ALL"
 # The default shell for the user when none is specified
@@ -48,71 +47,58 @@ users_shell: /bin/bash
 # The local directory to find/store generated ssh keys
 users_ssh_key_dir: ssh_keys
 
-# Lists of users to create or delete
+# Lists of users to create, remove or modify
 users: []
 
 # List of user groups to create or delete
 users_groups: []
 
 ```
-A good place to put replacements for these variables is in `group_vars/all` or `group_vars/group_name`,
+A good place to put replacements for these and following variables is in `group_vars/all` or `group_vars/group_name`,
 if you only want defined users and groups to be on certain machines.
 
-The `users` variable containing the list of users to manage.
-Each user element of this list is defined as an dictionary.
+The `users` variable containing the list of users to create, remove or modify.
+Each user in this list is defined as an dictionary.
 The following parameters are available for each user dictionary:
 
 | User Parameter | Choices / **Defaults** | Comments |
 |---|---|---|
 | `name` *required* || Name of the user to create, remove or modify. |
-| `state` | <ul><li>**present**</li><li>absent</li></ul> | Whether the account should exist or not, taking action if the state is different from what is stated. |
+| `state` | Choices:<ul><li>**present**</li><li>absent</li></ul> | Whether the account should exist or not, taking action if the state is different from what is stated. |
+| `comment` || Optionally sets the description (aka GECOS) of user account. |
 | `uid` || Optionally sets the UID of the user. |
-| `gid` || This only affects `users_group_per_user`=`yes`. Optionally sets different GID of the group per user, otherwise the UID will be used. |
+| `group` | Default: **`user.name`** | Optionally overrides the user's primary group taken from `users_group_per_user=yes` or `users_group` (takes a group name). |
+| `gid` || This only affects `users_group_per_user=yes`. Optionally sets different GID of user's primary group. Otherwise the UID will be used. |
+| `groups` || List of groups user will be added to. When set to an empty string '', null, or ~, the user is removed from all groups except the primary group. (~ means null in YAML) |
+| `append` | Choices:<ul><li>**no**</li><li>yes</li></ul> | If *yes*, add the user to the groups specified in `groups`. If *no*, user will only be added to the groups specified in `groups`, removing them from all other groups. |
+| `password` | Default: **!**| Optionally set the user's password to this crypted value. Otherwise the user account will be locked. |
+| `update_password` | Choices:<ul><li>**always**</li><li>on_create</li></ul> | *always* will update passwords if they differ. *on_create* will only set the password for newly created users. |
+| `create_home` | Choices:<ul><li>**yes**</li><li>no</li></ul> | Optionally overrides this value taken from `users_create_home`. Unless set to *no*, a home directory will be made for the user when the account is created or if the home directory does not exist. |
+| `home` | Default: **/home/`user.name`** | Optionally set the user's home directory. |
+| `shell` | Default: **/bin/bash** | Optionally overrides the user's shell taken from `users_shell`. |
+| `profile` || Optionally sets custom block into user's profile. *Requires `user.create_home=yes`!* |
+| `cron` | Choices:<ul><li>**no**</li><li>yes</li></ul> | If *yes*, permit the user to create, edit, display, or remove crontab files. |
+| `sudo` | Choices:<ul><li>**no**</li><li>yes</li></ul> | If *yes*, set the user's sudo options taken from `user.sudo_options`. |
+| `sudo_options` | Default: **ALL=(ALL) NOPASSWD: ALL**| Optionally overrides the user's sudo options taken from `users_sudo_options`. |
+| `ssh_key` || List of the users's authorized SSH keys (takes public SSH keys; included directly and without newlines). When set to an empty list or string all the users's authorized SSH keys are removed. *Requires `user.create_home=yes`!* |
+| `generate_ssh_key` | Choices:<ul><li>**no**</li><li>yes</li></ul> | Unless set to *no*, generate the user's SSH key pair, if the SSH key does not exists in the local directory `users_ssh_key_dir`. After that, add it to the users's authorized SSH keys and deploy the SSH key pair to the user. *Requires `user.create_home=yes`!* |
+| `remove` | Choices:<ul><li>**no**</li><li>yes</li></ul> | This only affects `user.state=absent`, it attempts to remove directories associated with the user. The behavior is the same as *userdel --remove*, check the man page for details and support. |
+|`force` | Choices:<ul><li>**no**</li><li>yes</li></ul> | his only affects `user.state=absent`, it forces removal of the user and associated directories on supported platforms. The behavior is the same as *userdel --force*, check the man page for details and support. |
 
+The `users_groups` variable containing the list of user groups to create or delete. Each group in this list is defined as an dictionary.
+The following parameters are available for each group dictionary:
 
-* `comment` - The full name of the user (gecos field).
-* `group` - The overridden primary group for the user (default: *<user.name>*).
-* `groups` - The list of supplementary groups for the user.
-* `append` - If yes, will only add groups, not set them to just the list in groups.
-* `password` - If a hash is provided then that will be used, but otherwise the
-  account will be locked.
-* `update_password` - This can be either *always* or *on_create*
-  - *always* will update passwords if they differ (default).
-  - *on_create* will only set the password for newly created users.
-* `create_home` - The overridden value, whether to create home directory for the user when the account is created or if the home directory does not exist (default: *yes*).
-* `home` - The home directory of the user (default: */home/<user.name>*).
-* `shell` - The overridden shell for the user (default: */bin/bash*).
-* `profile` - The block to expand settings for the user profile.
-* `cron` - If *yes*, set cron permission for the user (default: *no*).
-* `sudo` - If *yes*, set sudo options for the user (default: *no*).
-* `sudo_options` - The overridden sudo options for the user (default:
-  *ALL=(ALL) NOPASSWD: ALL*).
-* `ssh_key` - The list of authorized SSH keys for the user. Each public SSH key
-  should be included directly and should have no newlines.
-* `generate_ssh_key` - If *yes*, generate and authorize SSH key for the user (default: *no*).
+| Group Parameter | Choices / **Defaults** | Comments |
+|---|---|---|
+| `name` *required* || Name of the group to manage. |
+| `state` | Choices:<ul><li>**present**</li><li>absent</li></ul> | Whether the group should be present or not on the remote host. |
+| `gid` || Optional GID to set for the group. |
 
-In case, the user should be **deleted** the following **optional** attributes will take effects:
+Dependencies
+------------
 
-* `uid` - The numeric user id for the user. This is required for uid consistency
-  across systems.
-* `remove` - If *yes*, remove user's home directory and mail spool (default: *no*).
-* `force` - If *yes*, removal user's directories (default: *no*).
-
-Add `users_groups` variable containing the list of user groups to create or delete. Each group in this list is defined as an dictionary.
-A good place to put this is in `group_vars/all` or `group_vars/group_name`,
-if you only want the user groups to be on certain machines.
-
-The following attributes are **required** for each user group:
-
-* `name` - The group name.
-* `state` - This can be either *present* or *absent*
-  - *present* will create the group (default).
-  - *absent* will delete the group.
-
-The following **optional** attributes will take effects:
-
-* `gid` - The numeric group id for the group. This is required for gid consistency
-  across systems.
+A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to
+be set for other roles, or variables that are used from other roles.
 
 Example Playbook
 ----------------
