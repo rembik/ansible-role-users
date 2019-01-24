@@ -13,7 +13,7 @@ platforms:
   # https://hub.docker.com/search/?type=image
   - name: "${MOLECULE_INST_PREFIX:-instance}-${MOLECULE_INST:-centos-latest}"
     image: ${MOLECULE_DOCKER_IMAGE:-centos:latest}
-    command: ${MOLECULE_COMMAND}
+    command: ${MOLECULE_COMMAND:-""}
 provisioner:
   name: ansible
   lint:

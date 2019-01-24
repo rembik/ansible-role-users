@@ -155,13 +155,13 @@ This role has been tested against the following Linux distributions and Ansible 
 
 | Distribution ||
 |---|---|
-| [![Distro](https://img.shields.io/badge/Alpine-latest%20%7C%20edge%2A-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | [![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%2A-56b4b6.svg)]() |
-| [![Distro](https://img.shields.io/badge/ArchLinux-latest-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | [![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%2A-56b4b6.svg)]() |
-| [![Distro](https://img.shields.io/badge/CentOS-latest-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | [![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%2A-56b4b6.svg)]() |
-| [![Distro](https://img.shields.io/badge/Debian-latest%20%7C%20unstable%2A-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | [![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%2A-56b4b6.svg)]() |
-| [![Distro](https://img.shields.io/badge/Fedora-latest%20%7C%20rawhide%2A-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | [![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%2A-56b4b6.svg)]() |
-| [![Distro](https://img.shields.io/badge/openSUSE-Leap%20%7C%20Tumbleweed-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | [![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%2A-56b4b6.svg)]() |
-| [![Distro](https://img.shields.io/badge/Ubuntu-latest%20%7C%20devel%2A-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | [![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%2A-56b4b6.svg)]() |
+| [![Distro](https://img.shields.io/badge/Alpine-latest%20%7C%20edge%2A-brightgreen.svg?logo=docker)](https://travis-ci.org/rembik/ansible-role-users) | [![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%2A-56b4b6.svg)]() |
+| [![Distro](https://img.shields.io/badge/ArchLinux-latest-brightgreen.svg?logo=docker)](https://travis-ci.org/rembik/ansible-role-users) | [![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%2A-56b4b6.svg)]() |
+| [![Distro](https://img.shields.io/badge/CentOS-latest-brightgreen.svg?logo=docker)](https://travis-ci.org/rembik/ansible-role-users) | [![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%2A-56b4b6.svg)]() |
+| [![Distro](https://img.shields.io/badge/Debian-latest%20%7C%20unstable%2A-brightgreen.svg?logo=docker)](https://travis-ci.org/rembik/ansible-role-users) | [![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%2A-56b4b6.svg)]() |
+| [![Distro](https://img.shields.io/badge/Fedora-latest%20%7C%20rawhide%2A-brightgreen.svg?logo=docker)](https://travis-ci.org/rembik/ansible-role-users) | [![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%2A-56b4b6.svg)]() |
+| [![Distro](https://img.shields.io/badge/openSUSE-Leap%20%7C%20Tumbleweed-brightgreen.svg?logo=docker)](https://travis-ci.org/rembik/ansible-role-users) | [![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%2A-56b4b6.svg)]() |
+| [![Distro](https://img.shields.io/badge/Ubuntu-latest%20%7C%20devel%2A-brightgreen.svg?logo=docker)](https://travis-ci.org/rembik/ansible-role-users) | [![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%2A-56b4b6.svg)]() |
 
 > Asteriks means the build is allowed to fail, it's marked as an experimental build.
 

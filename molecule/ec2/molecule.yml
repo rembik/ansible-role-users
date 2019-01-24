@@ -14,7 +14,7 @@ platforms:
   - name: "${MOLECULE_INST_PREFIX:-instance}-${MOLECULE_INST:-centos-latest}"
     image: ${MOLECULE_AMI:-ami-9a183671}
     instance_type: t2.micro
-    vpc_subnet_id: ${MOLECULE_VPC_SUBNET_ID}
+    vpc_subnet_id: ${MOLECULE_VPC_SUBNET_ID:-""}
 provisioner:
   name: ansible
   lint:
