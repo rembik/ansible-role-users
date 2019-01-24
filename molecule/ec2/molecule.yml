@@ -11,7 +11,7 @@ lint:
     config-file: molecule/.yamllint
 platforms:
   # https://docs.aws.amazon.com/en_us/AWSEC2/latest/UserGuide/finding-an-ami.html
-  - name: "${MOLECULE_INST_PREFIX:-instance}-${MOLECULE_INST:-centos-latest}"
+  - name: "${MOLECULE_INST_PREFIX:-instance}-ec2-${MOLECULE_INST:-centos-latest}"
     image: ${MOLECULE_AMI:-ami-9a183671}
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_VPC_SUBNET_ID:-""}
@@ -26,16 +26,16 @@ provisioner:
     converge: ${MOLECULE_PLAYBOOK:-../playbook.yml}
   inventory:
     host_vars:
-      instance-ubuntu-latest:
+      instance-ec2-ubuntu-latest:
         ansible_user: ubuntu
-      instance-centos-latest:
+      instance-ec2-centos-latest:
         ansible_user: centos
-      instance-fedora-latest:
+      instance-ec2-fedora-latest:
         ansible_user: fedora
 scenario:
   name: ec2
 verifier:
   name: goss
-  directory: ../tests/
+  directory: ${MOLECULE_TESTS:-../tests/}
   lint:
     name: yamllint
