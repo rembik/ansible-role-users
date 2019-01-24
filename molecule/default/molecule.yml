@@ -11,9 +11,9 @@ lint:
     config-file: molecule/.yamllint
 platforms:
   # https://hub.docker.com/search/?type=image
-  - name: "${MOLECULE_INST_PREFIX:-instance}-docker-${MOLECULE_INST:-centos-latest}"
+  - name: "${MOLECULE_INSTANCE_PREFIX:-instance}-docker-${MOLECULE_DISTRO:-centos-latest}"
     image: ${MOLECULE_DOCKER:-centos:latest}
-    command: ${MOLECULE_COMMAND:-""}
+    command: ${MOLECULE_COMMAND:-sleep infinity}
 provisioner:
   name: ansible
   lint:

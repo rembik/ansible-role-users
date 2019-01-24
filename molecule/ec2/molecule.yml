@@ -11,10 +11,10 @@ lint:
     config-file: molecule/.yamllint
 platforms:
   # https://docs.aws.amazon.com/en_us/AWSEC2/latest/UserGuide/finding-an-ami.html
-  - name: "${MOLECULE_INST_PREFIX:-instance}-ec2-${MOLECULE_INST:-centos-latest}"
-    image: ${MOLECULE_AMI:-ami-9a183671}
+  - name: "${MOLECULE_INSTANCE_PREFIX:-instance}-ec2-${MOLECULE_DISTRO:-centos-latest}"
+    image: ${MOLECULE_EC2_AMI:-ami-9a183671}
     instance_type: t2.micro
-    vpc_subnet_id: ${MOLECULE_VPC_SUBNET_ID:-""}
+    vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
 provisioner:
   name: ansible
   lint:
@@ -36,6 +36,6 @@ scenario:
   name: ec2
 verifier:
   name: goss
-  directory: ${MOLECULE_TESTS:-../tests/}
+  directory: ../tests/
   lint:
     name: yamllint
