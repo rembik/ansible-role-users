@@ -8,7 +8,7 @@ driver:
 lint:
   name: yamllint
   options:
-    config-file: molecule/.yamllint.yml
+    config-file: molecule/.yamllint
 platforms:
   # https://docs.aws.amazon.com/en_us/AWSEC2/latest/UserGuide/finding-an-ami.html
   - name: instance-amazon-linux-2

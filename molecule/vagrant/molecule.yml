@@ -10,7 +10,7 @@ driver:
 lint:
   name: yamllint
   options:
-    config-file: molecule/.yamllint.yml
+    config-file: molecule/.yamllint
 platforms:
   # https://app.vagrantup.com/boxes/search
   - name: "${MOLECULE_INST_PREFIX:-instance}-${MOLECULE_INST:-centos-latest}"
