@@ -91,8 +91,8 @@ cache:
 install:
   - pip install --upgrade pip
   # Install Ansible, Molecule and Docker packages
-  - if [ "${ANSIBLE}" = "latest-2" ] ; then pip install ansible>=2.5,<2.6 ; fi
-  - if [ "${ANSIBLE}" = "latest-1" ] ; then pip install ansible>=2.6,<2.7 ; fi
+  - if [ "${ANSIBLE}" = "latest-2" ] ; then pip install "ansible>=2.5,<2.6" ; fi
+  - if [ "${ANSIBLE}" = "latest-1" ] ; then pip install "ansible>=2.6,<2.7" ; fi
   - if [ "${ANSIBLE}" = "latest-0" ] ; then pip install ansible ; fi
   - if [ "${ANSIBLE}" = "devel" ] ; then pip install git+https://github.com/ansible/ansible.git@devel ; fi
   - pip install molecule
