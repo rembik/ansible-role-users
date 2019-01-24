@@ -100,24 +100,24 @@ install:
   - pip install molecule
   - pip install docker-py
   # install AWS related packages
-  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_AMI:-none}" != "none" ] ; pip install boto boto3 ; fi
-  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_AMI:-none}" != "none" ] ; pip install --upgrade awscli ; fi
+  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_AMI:-none}" != "none" ] ; then pip install boto boto3 ; fi
+  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_AMI:-none}" != "none" ] ; then pip install --upgrade awscli ; fi
   # configure AWS CLI defined in TravisCI
   # https://docs.travis-ci.com/user/environment-variables#defining-variables-in-repository-settings
-  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_AMI:-none}" != "none" ] ; aws configure set aws_access_key_id ${AWS_ACCESS_KEY} ; fi
-  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_AMI:-none}" != "none" ] ; aws configure set aws_secret_access_key ${AWS_SECRET_KEY} ; fi
-  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_AMI:-none}" != "none" ] ; aws configure set default.region ${AWS_REGION} ; fi
+  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_AMI:-none}" != "none" ] ; then aws configure set aws_access_key_id ${AWS_ACCESS_KEY} ; fi
+  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_AMI:-none}" != "none" ] ; then aws configure set aws_secret_access_key ${AWS_SECRET_KEY} ; fi
+  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_AMI:-none}" != "none" ] ; then aws configure set default.region ${AWS_REGION} ; fi
   # show AWS CLI config
-  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_AMI:-none}" != "none" ] ; aws configure list ; fi
+  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_AMI:-none}" != "none" ] ; then aws configure list ; fi
 
 script:
   # Molecule Testing Travis-locally on Docker Engine
   - molecule test
   # Molecule Testing on AWS EC2
-  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_AMI:-none}" != "none" ] ; molecule create --scenario-name ec2 ; fi
-  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_AMI:-none}" != "none" ] ; molecule converge --scenario-name ec2 ; fi
-  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_AMI:-none}" != "none" ] ; molecule verify --scenario-name ec2 ; fi
-  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_AMI:-none}" != "none" ] ; molecule destroy --scenario-name ec2 ; fi
+  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_AMI:-none}" != "none" ] ; then molecule create --scenario-name ec2 ; fi
+  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_AMI:-none}" != "none" ] ; then molecule converge --scenario-name ec2 ; fi
+  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_AMI:-none}" != "none" ] ; then molecule verify --scenario-name ec2 ; fi
+  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_AMI:-none}" != "none" ] ; then molecule destroy --scenario-name ec2 ; fi
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
