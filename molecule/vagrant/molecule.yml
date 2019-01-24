@@ -9,11 +9,12 @@ driver:
     name: virtualbox
 lint:
   name: yamllint
+  options:
+    config-file: molecule/.yamllint.yml
 platforms:
-  - name: users-debian
-    box: debian/stretch64
-  - name: users-fedora
-    box: fedora/29-cloud-base
+  # https://app.vagrantup.com/boxes/search
+  - name: "${MOLECULE_INST_PREFIX:-instance}-${MOLECULE_INST:-centos-latest}"
+    image: ${MOLECULE_VBOX:-centos/7}
 provisioner:
   name: ansible
   lint:
@@ -21,9 +22,12 @@ provisioner:
   config_options:
     defaults:
       callback_plugins: /usr/lib/python2.7/site-packages/ara/plugins/callbacks
+  playbook:
+    converge: ${MOLECULE_PLAYBOOK:-../playbook.yml}
 scenario:
   name: vagrant
 verifier:
   name: goss
+  directory: ../tests/
   lint:
     name: yamllint

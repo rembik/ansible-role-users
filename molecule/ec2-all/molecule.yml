@@ -11,8 +11,20 @@ lint:
     config-file: molecule/.yamllint.yml
 platforms:
   # https://docs.aws.amazon.com/en_us/AWSEC2/latest/UserGuide/finding-an-ami.html
-  - name: "${MOLECULE_INST_PREFIX:-instance}-${MOLECULE_INST:-centos-latest}"
-    image: ${MOLECULE_AMI:-ami-9a183671}
+  - name: instance-amazon-linux-2
+    image: ami-02ea8f348fa28c108
+    instance_type: t2.micro
+    vpc_subnet_id: ${MOLECULE_VPC_SUBNET_ID}
+  - name: instance-centos-latest
+    image: ami-9a183671
+    instance_type: t2.micro
+    vpc_subnet_id: ${MOLECULE_VPC_SUBNET_ID}
+  - name: instance-fedora-latest
+    image: ami-0f904cfaa69a1c64c
+    instance_type: t2.micro
+    vpc_subnet_id: ${MOLECULE_VPC_SUBNET_ID}
+  - name: instance-ubuntu-latest
+    image: ami-0bdf93799014acdc4
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_VPC_SUBNET_ID}
 provisioner:
@@ -33,7 +45,7 @@ provisioner:
       instance-fedora-latest:
         ansible_user: fedora
 scenario:
-  name: ec2
+  name: ec2-all
 verifier:
   name: goss
   directory: ../tests/

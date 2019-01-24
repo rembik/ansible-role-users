@@ -17,6 +17,6 @@ Run the [ansible-galaxy](https://github.com/ansible/galaxy-lint-rules) and [robe
 git clone https://github.com/ansible/ansible-lint.git /tmp/ansible-lint
 ansible-lint -r /tmp/ansible-lint/lib/ansiblelint/rules .
 
-git clone https://github.com/robertdebock/ansible-lint /tmp/my-ansible-lint
+git clone https://github.com/robertdebock/ansible-lint /tmp/robertdebock-ansible-lint
 ansible-lint -r /tmp/robertdebock-ansible-lint/rules .
 ```

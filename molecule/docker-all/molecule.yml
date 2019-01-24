@@ -1,0 +1,46 @@
+---
+dependency:
+  name: galaxy
+  options:
+    role-file: requirements.yml
+driver:
+  name: docker
+lint:
+  name: yamllint
+  options:
+    config-file: molecule/.yamllint.yml
+platforms:
+  # https://hub.docker.com/search/?type=image
+  - name: instance-alpine-latest
+    image: alpine:latest
+    command: sh -c "while true ; do sleep 1 ; done"
+  - name: instance-archlinux
+    image: base/archlinux:latest
+  - name: instance-centos-latest
+    image: centos:latest
+  - name: instance-debian-latest
+    image: debian:latest
+  - name: instance-fedora-latest
+    image: fedora:latest
+  - name: instance-opensuse-leap
+    image: opensuse/leap:latest
+  - name: instance-opensuse-tumbleweed
+    image: opensuse/tumbleweed:latest
+  - name: instance-ubuntu-latest
+    image: ubuntu:latest
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+  config_options:
+    defaults:
+      callback_plugins: /usr/lib/python2.7/site-packages/ara/plugins/callbacks
+  playbook:
+    converge: ${MOLECULE_PLAYBOOK:-../playbook.yml}
+scenario:
+  name: default-all
+verifier:
+  name: goss
+  directory: ../tests/
+  lint:
+    name: yamllint

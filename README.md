@@ -102,7 +102,7 @@ In general this role has no dependencies. In combination with the recommended ro
 Example Playbook
 ----------------
 
-This example is taken from `molecule/default/playbook.yml`:
+This example is taken from `molecule/playbook.yml`:
 ```yaml
 ---
 - name: Converge
@@ -155,15 +155,15 @@ This role has been tested against the following Linux distributions and Ansible 
 
 | Distribution ||
 |---|---|
-| [![Distro](https://img.shields.io/badge/Alpine-latest%20%7C%20edge%20(%3F)-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | ![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%20(%3F)-56b4b6.svg) |
-| [![Distro](https://img.shields.io/badge/ArchLinux-latest-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | ![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%20(%3F)-56b4b6.svg) |
-| [![Distro](https://img.shields.io/badge/CentOS-6%20%7C%20latest-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | ![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%20(%3F)-56b4b6.svg) |
-| [![Distro](https://img.shields.io/badge/Debian-latest%20%7C%20stable%20%7C%20unstable%20(%3F)-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | ![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%20(%3F)-56b4b6.svg) |
-| [![Distro](https://img.shields.io/badge/Fedora-latest%20%7C%20rawhide%20(%3F)-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | ![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%20(%3F)-56b4b6.svg) |
-| [![Distro](https://img.shields.io/badge/openSUSE-Leap%20%7C%20Tumbleweed-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | ![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%20(%3F)-56b4b6.svg) |
-| [![Distro](https://img.shields.io/badge/Ubuntu-artful%20%7C%20latest%20%7C%20devel%20(%3F)-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | ![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%20(%3F)-56b4b6.svg) |
+| [![Distro](https://img.shields.io/badge/Alpine-latest%20%7C%20edge%2A-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | [![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%2A-56b4b6.svg)]() |
+| [![Distro](https://img.shields.io/badge/ArchLinux-latest-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | [![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%2A-56b4b6.svg)]() |
+| [![Distro](https://img.shields.io/badge/CentOS-latest-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | [![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%2A-56b4b6.svg)]() |
+| [![Distro](https://img.shields.io/badge/Debian-latest%20%7C%20unstable%2A-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | [![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%2A-56b4b6.svg)]() |
+| [![Distro](https://img.shields.io/badge/Fedora-latest%20%7C%20rawhide%2A-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | [![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%2A-56b4b6.svg)]() |
+| [![Distro](https://img.shields.io/badge/openSUSE-Leap%20%7C%20Tumbleweed-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | [![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%2A-56b4b6.svg)]() |
+| [![Distro](https://img.shields.io/badge/Ubuntu-latest%20%7C%20devel%2A-brightgreen.svg)](https://travis-ci.org/rembik/ansible-role-users) | [![Ansible](https://img.shields.io/badge/Ansible-2.5%20%7C%202.6%20%7C%202.7%20%7C%20devel%2A-56b4b6.svg)]() |
 
-> (?) means the build is allowed to fail, it's marked as an experimental build.
+> Asteriks means the build is allowed to fail, it's marked as an experimental build.
 
 Contributing
 ------------
