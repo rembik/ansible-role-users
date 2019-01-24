@@ -57,7 +57,7 @@
         content: "{{ keypair.key.private_key }}"
         mode: 0600
       when: keypair.changed
-    
+
     - name: Gather facts about all VPC subnets
       ec2_vpc_subnet_facts:
       register: ec2_vpc
