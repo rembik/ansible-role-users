@@ -22,7 +22,7 @@ provisioner:
     defaults:
       callback_plugins: /usr/lib/python2.7/site-packages/ara/plugins/callbacks
   playbooks:
-    converge: ${MOLECULE_PLAYBOOK:-playbook.yml}
+    converge: ${MOLECULE_PLAYBOOK:-../playbook.yml}
   inventory:
     host_vars:
       instance-fedora-rawhide:
