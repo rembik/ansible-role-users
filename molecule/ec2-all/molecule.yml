@@ -16,7 +16,7 @@ platforms:
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
   - name: instance-ec2-centos-latest
-    image: ami-00774d5e23d4f2d8b
+    image: ami-dd3c0f36
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
   - name: instance-ec2-debian-latest
@@ -24,11 +24,11 @@ platforms:
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
   - name: instance-ec2-fedora-latest
-    image: ami-0f904cfaa69a1c64c
+    image: ami-03337e8290f6f0928
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
   - name: instance-ec2-ubuntu-latest
-    image: ami-0bdf93799014acdc4
+    image: ami-0cf8fa6a01bb07363
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
 provisioner:
