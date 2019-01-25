@@ -103,7 +103,7 @@ install:
   # configure AWS CLI defined in TravisCI
   # https://docs.travis-ci.com/user/environment-variables#defining-variables-in-repository-settings
   - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_EC2_AMI:-none}" != "none" ] ; then aws configure set aws_access_key_id ${AWS_ACCESS_KEY} ; fi
-  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_EC2_AMI:-none}" != "none" ] ; then aws configure set aws_secret_access_key ${AWS_SECRET_KEY} ; fi
+  - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_EC2_AMI:-none}" != "none" ] ; then aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY} ; fi
   - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_EC2_AMI:-none}" != "none" ] ; then aws configure set default.region ${AWS_REGION} ; fi
   # show AWS CLI config
   - if [ "${AWS_ACCESS_KEY:-none}" != "none" ] && [ "${MOLECULE_EC2_AMI:-none}" != "none" ] ; then aws configure list ; fi

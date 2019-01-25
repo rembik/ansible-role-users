@@ -151,7 +151,7 @@ This example is taken from `molecule/playbook.yml`:
 Role Tests
 -----
 
-This role has been tested against the following Linux distributions and Ansible versions:
+This role is tested periodically against the following Linux distributions and Ansible versions:
 
 | Distribution ||
 |---|---|
@@ -168,7 +168,7 @@ This role has been tested against the following Linux distributions and Ansible 
 Contributing
 ------------
 
-If you find issues, please register them in [GitHub](https://github.com/rembik/ansible-role-users/issues) or consider contributing by opening a pull request and following the [contributing](CONTRIBUTING.md) guideline.
+If you find issues, please register them at this [GitHub project issue page](https://github.com/rembik/ansible-role-users/issues/new/choose) or consider contributing code by following this [guideline](http://github.com/rembik/ansible-role-users/tree/master/.github/CONTRIBUTING.md).
 
 License
 -------
