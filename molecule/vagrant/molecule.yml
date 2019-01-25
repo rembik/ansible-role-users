@@ -28,6 +28,6 @@ scenario:
   name: vagrant
 verifier:
   name: goss
-  directory: ${MOLECULE_TESTS:-../tests/}
+  directory: ../tests/
   lint:
     name: yamllint
