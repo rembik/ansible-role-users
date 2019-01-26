@@ -41,6 +41,6 @@ scenario:
   name: default-all
 verifier:
   name: goss
-  directory: ../tests/
+  directory: ../tests
   lint:
     name: yamllint

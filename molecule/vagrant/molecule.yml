@@ -28,6 +28,6 @@ scenario:
   name: vagrant
 verifier:
   name: goss
-  directory: ../tests/
+  directory: ../tests
   lint:
     name: yamllint

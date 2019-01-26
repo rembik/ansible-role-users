@@ -23,7 +23,7 @@ provisioner:
     defaults:
       callback_plugins: /usr/lib/python2.7/site-packages/ara/plugins/callbacks
   playbook:
-    converge: ${MOLECULE_PLAYBOOK:-../playbook.yml}
+    converge: playbook.yml
   inventory:
     host_vars:
       instance-ec2-centos-latest:
@@ -38,6 +38,6 @@ scenario:
   name: ec2
 verifier:
   name: goss
-  directory: ../tests/
+  directory: ../tests
   lint:
     name: yamllint
