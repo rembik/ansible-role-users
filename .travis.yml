@@ -72,18 +72,12 @@ before_install:
   - sudo apt-get -qq update
 
 install:
-  - pip instec2 --upgrade pip
-  - pip instec2 tox-travis
+  - pip install --upgrade pip
+  - pip install tox-travis
 
-jobs:
-  include:
-    - name: "Test (Docker)"
-      script: tox
-      if: env(scenario) = docker
-    - stage: ec2
-      name: "Test (Amazon EC2)"
-      script: if [ "${AWS_ACCESS_KEY:-none}" != "none" ] ; then tox ; fi
-      if: env(scenario) = ec2
+script:
+  - if [ "${SCENARIO}" = "docker" ] ; then tox ; fi
+  - if [ "${SCENARIO}" = "ec2" ] && [ "${AWS_ACCESS_KEY:-none}" != "none" ] ; then tox ; fi
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
