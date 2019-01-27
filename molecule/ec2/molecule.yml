@@ -11,7 +11,7 @@ lint:
     config-file: molecule/.yamllint
 platforms:
   # https://docs.aws.amazon.com/en_us/AWSEC2/latest/UserGuide/finding-an-ami.html
-  - name: "${MOLECULE_INSTANCE_PREFIX:-instance}-ec2-${MOLECULE_DISTRO:-centos-latest}"
+  - name: "${MOLECULE_INSTANCE_PREFIX:-instance}-${MOLECULE_DISTRO:-centos-latest}-${MOLECULE_TOX_ENV:-stable27-ec2}"
     image: ${MOLECULE_EC2_AMI:-ami-dd3c0f36}
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
@@ -23,7 +23,7 @@ provisioner:
     defaults:
       callback_plugins: /usr/lib/python2.7/site-packages/ara/plugins/callbacks
   playbook:
-    converge: playbook.yml
+    converge: ${MOLECULE_PLAYBOOK:-../playbook.yml}
   inventory:
     host_vars:
       instance-ec2-centos-latest:
