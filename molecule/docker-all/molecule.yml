@@ -11,22 +11,22 @@ lint:
     config-file: molecule/.yamllint
 platforms:
   # https://hub.docker.com/search/?type=image
-  - name: instance-docker-alpine-latest
+  - name: instance-alpine-latest-docker
     image: alpine:latest
     command: sh -c "while true ; do sleep 1 ; done"
-  - name: instance-docker-archlinux
+  - name: instance-archlinux-latest-docker
     image: base/archlinux:latest
-  - name: instance-docker-centos-latest
+  - name: instance-centos-latest-docker
     image: centos:latest
-  - name: instance-docker-debian-latest
+  - name: instance-debian-latest-docker
     image: debian:latest
-  - name: instance-docker-fedora-latest
+  - name: instance-fedora-latest-docker
     image: fedora:latest
-  - name: instance-docker-opensuse-leap
+  - name: instance-opensuse-leap-docker
     image: opensuse/leap:latest
-  - name: instance-docker-opensuse-tumbleweed
+  - name: instance-opensuse-tumbleweed-docker
     image: opensuse/tumbleweed:latest
-  - name: instance-docker-ubuntu-latest
+  - name: instance-ubuntu-latest-docker
     image: ubuntu:latest
 provisioner:
   name: ansible

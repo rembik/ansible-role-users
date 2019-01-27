@@ -11,10 +11,12 @@ lint:
     config-file: molecule/.yamllint
 platforms:
   # https://docs.aws.amazon.com/en_us/AWSEC2/latest/UserGuide/finding-an-ami.html
-  - name: "${MOLECULE_INSTANCE_PREFIX:-instance}-${MOLECULE_DISTRO:-centos-latest}-${MOLECULE_TOX_ENV:-stable27-ec2}"
+  - name: "${MOLECULE_INSTANCE_PREFIX:-instance}-${MOLECULE_DISTRO:-centos-latest}-${MOLECULE_TOX_ENV:stable-ec2}"
     image: ${MOLECULE_EC2_AMI:-ami-dd3c0f36}
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
+    groups:
+      - ${MOLECULE_INSTANCE_PREFIX:-instance}-${MOLECULE_DISTRO:-centos-latest}-ec2
 provisioner:
   name: ansible
   lint:
@@ -25,14 +27,14 @@ provisioner:
   playbook:
     converge: ${MOLECULE_PLAYBOOK:-../playbook.yml}
   inventory:
-    host_vars:
-      instance-ec2-centos-latest:
+    group_vars:
+      instance-centos-latest-ec2:
         ansible_user: centos
-      instance-ec2-debian-latest:
+      instance-debian-latest-ec2:
         ansible_user: debian
-      instance-ec2-fedora-latest:
+      instance-fedora-latest-ec2:
         ansible_user: fedora
-      instance-ec2-ubuntu-latest:
+      instance-ubuntu-latest-ec2:
         ansible_user: ubuntu
 scenario:
   name: ec2

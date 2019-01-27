@@ -9,49 +9,61 @@ env:
     - BOTO_CONFIG="/dev/null"
     - AWS_REGION="eu-central-1"
   matrix:
-    - MOLECULE_DISTRO="alpine-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="alpine:latest" MOLECULE_DOCKER_COMMAND="sh -c 'while true ; do sleep 1 ; done'"
-    - MOLECULE_DISTRO="alpine-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="alpine:latest" MOLECULE_DOCKER_COMMAND="sh -c 'while true ; do sleep 1 ; done'"
-    - MOLECULE_DISTRO="alpine-edge" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="alpine:edge" MOLECULE_DOCKER_COMMAND="sh -c 'while true ; do sleep 1 ; done'"
-    - MOLECULE_DISTRO="alpine-edge" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="alpine:edge" MOLECULE_DOCKER_COMMAND="sh -c 'while true ; do sleep 1 ; done'"
-    - MOLECULE_DISTRO="archlinux" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="base/archlinux"
-    - MOLECULE_DISTRO="archlinux" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="base/archlinux"
-    - MOLECULE_DISTRO="centos-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="centos:latest" MOLECULE_EC2_AMI="ami-dd3c0f36"
-    - MOLECULE_DISTRO="centos-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="centos:latest" MOLECULE_EC2_AMI="ami-dd3c0f36"
-    - MOLECULE_DISTRO="debian-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="debian:latest" MOLECULE_EC2_AMI="ami-0ca467408e84df23c"
-    - MOLECULE_DISTRO="debian-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="debian:latest" MOLECULE_EC2_AMI="ami-0ca467408e84df23c"
-    - MOLECULE_DISTRO="debian-unstable" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="debian:unstable"
-    - MOLECULE_DISTRO="debian-unstable" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="debian:unstable"
-    - MOLECULE_DISTRO="fedora-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="fedora:latest" MOLECULE_EC2_AMI="ami-03337e8290f6f0928"
-    - MOLECULE_DISTRO="fedora-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="fedora:latest" MOLECULE_EC2_AMI="ami-03337e8290f6f0928"
-    - MOLECULE_DISTRO="fedora-rawhide" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="fedora:rawhide"
-    - MOLECULE_DISTRO="fedora-rawhide" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="fedora:rawhide"
-    - MOLECULE_DISTRO="opensuse-leap" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="opensuse/leap:latest"
-    - MOLECULE_DISTRO="opensuse-leap" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="opensuse/leap:latest"
-    - MOLECULE_DISTRO="opensuse-tumbleweed" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="opensuse/tumbleweed:latest"
-    - MOLECULE_DISTRO="opensuse-tumbleweed" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="opensuse/tumbleweed:latest"
-    - MOLECULE_DISTRO="ubuntu-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="ubuntu:latest" MOLECULE_EC2_AMI="ami-0cf8fa6a01bb07363"
-    - MOLECULE_DISTRO="ubuntu-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="ubuntu:latest" MOLECULE_EC2_AMI="ami-0cf8fa6a01bb07363"
-    - MOLECULE_DISTRO="ubuntu-devel" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="ubuntu:devel"
-    - MOLECULE_DISTRO="ubuntu-devel" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="ubuntu:devel"
+    - SCENARIO="docker" MOLECULE_DISTRO="alpine-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="alpine:latest" MOLECULE_DOCKER_COMMAND="sh -c 'while true ; do sleep 1 ; done'"
+    - SCENARIO="docker" MOLECULE_DISTRO="alpine-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="alpine:latest" MOLECULE_DOCKER_COMMAND="sh -c 'while true ; do sleep 1 ; done'"
+    - SCENARIO="docker" MOLECULE_DISTRO="alpine-edge" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="alpine:edge" MOLECULE_DOCKER_COMMAND="sh -c 'while true ; do sleep 1 ; done'"
+    - SCENARIO="docker" MOLECULE_DISTRO="alpine-edge" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="alpine:edge" MOLECULE_DOCKER_COMMAND="sh -c 'while true ; do sleep 1 ; done'"
+    - SCENARIO="docker" MOLECULE_DISTRO="archlinux-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="base/archlinux"
+    - SCENARIO="docker" MOLECULE_DISTRO="archlinux-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="base/archlinux"
+    - SCENARIO="docker" MOLECULE_DISTRO="centos-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="centos:latest"
+    - SCENARIO="docker" MOLECULE_DISTRO="centos-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="centos:latest"
+    - SCENARIO="docker" MOLECULE_DISTRO="debian-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="debian:latest"
+    - SCENARIO="docker" MOLECULE_DISTRO="debian-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="debian:latest"
+    - SCENARIO="docker" MOLECULE_DISTRO="debian-unstable" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="debian:unstable"
+    - SCENARIO="docker" MOLECULE_DISTRO="debian-unstable" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="debian:unstable"
+    - SCENARIO="docker" MOLECULE_DISTRO="fedora-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="fedora:latest"
+    - SCENARIO="docker" MOLECULE_DISTRO="fedora-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="fedora:latest"
+    - SCENARIO="docker" MOLECULE_DISTRO="fedora-rawhide" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="fedora:rawhide"
+    - SCENARIO="docker" MOLECULE_DISTRO="fedora-rawhide" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="fedora:rawhide"
+    - SCENARIO="docker" MOLECULE_DISTRO="opensuse-leap" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="opensuse/leap:latest"
+    - SCENARIO="docker" MOLECULE_DISTRO="opensuse-leap" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="opensuse/leap:latest"
+    - SCENARIO="docker" MOLECULE_DISTRO="opensuse-tumbleweed" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="opensuse/tumbleweed:latest"
+    - SCENARIO="docker" MOLECULE_DISTRO="opensuse-tumbleweed" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="opensuse/tumbleweed:latest"
+    - SCENARIO="docker" MOLECULE_DISTRO="ubuntu-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="ubuntu:latest"
+    - SCENARIO="docker" MOLECULE_DISTRO="ubuntu-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="ubuntu:latest"
+    - SCENARIO="docker" MOLECULE_DISTRO="ubuntu-devel" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="ubuntu:devel"
+    - SCENARIO="docker" MOLECULE_DISTRO="ubuntu-devel" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="ubuntu:devel"
+    - SCENARIO="ec2" MOLECULE_DISTRO="centos-latest" ANSIBLE="stable" MOLECULE_EC2_AMI="ami-dd3c0f36"
+    - SCENARIO="ec2" MOLECULE_DISTRO="centos-latest" ANSIBLE="devel" MOLECULE_EC2_AMI="ami-dd3c0f36"
+    - SCENARIO="ec2" MOLECULE_DISTRO="debian-latest" ANSIBLE="stable" MOLECULE_EC2_AMI="ami-0ca467408e84df23c"
+    - SCENARIO="ec2" MOLECULE_DISTRO="debian-latest" ANSIBLE="devel" MOLECULE_EC2_AMI="ami-0ca467408e84df23c"
+    - SCENARIO="ec2" MOLECULE_DISTRO="fedora-latest" ANSIBLE="stable" MOLECULE_EC2_AMI="ami-03337e8290f6f0928"
+    - SCENARIO="ec2" MOLECULE_DISTRO="fedora-latest" ANSIBLE="devel" MOLECULE_EC2_AMI="ami-03337e8290f6f0928"
+    - SCENARIO="ec2" MOLECULE_DISTRO="ubuntu-latest" ANSIBLE="stable" MOLECULE_EC2_AMI="ami-0cf8fa6a01bb07363"
+    - SCENARIO="ec2" MOLECULE_DISTRO="ubuntu-latest" ANSIBLE="devel" MOLECULE_EC2_AMI="ami-0cf8fa6a01bb07363"   
 
 matrix:
   allow_failures:
-    - env: MOLECULE_DISTRO="alpine-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="alpine:latest" MOLECULE_DOCKER_COMMAND="sh -c 'while true ; do sleep 1 ; done'"
-    - env: MOLECULE_DISTRO="alpine-edge" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="alpine:edge" MOLECULE_DOCKER_COMMAND="sh -c 'while true ; do sleep 1 ; done'"
-    - env: MOLECULE_DISTRO="alpine-edge" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="alpine:edge" MOLECULE_DOCKER_COMMAND="sh -c 'while true ; do sleep 1 ; done'"
-    - env: MOLECULE_DISTRO="archlinux" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="base/archlinux"
-    - env: MOLECULE_DISTRO="centos-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="centos:latest" MOLECULE_EC2_AMI="ami-dd3c0f36"
-    - env: MOLECULE_DISTRO="debian-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="debian:latest" MOLECULE_EC2_AMI="ami-0ca467408e84df23c"
-    - env: MOLECULE_DISTRO="debian-unstable" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="debian:unstable"
-    - env: MOLECULE_DISTRO="debian-unstable" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="debian:unstable"
-    - env: MOLECULE_DISTRO="fedora-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="fedora:latest" MOLECULE_EC2_AMI="ami-03337e8290f6f0928"
-    - env: MOLECULE_DISTRO="fedora-rawhide" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="fedora:rawhide"
-    - env: MOLECULE_DISTRO="fedora-rawhide" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="fedora:rawhide"
-    - env: MOLECULE_DISTRO="opensuse-leap" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="opensuse/leap:latest"
-    - env: MOLECULE_DISTRO="opensuse-tumbleweed" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="opensuse/tumbleweed:latest"
-    - env: MOLECULE_DISTRO="ubuntu-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="ubuntu:latest" MOLECULE_EC2_AMI="ami-0cf8fa6a01bb07363"
-    - env: MOLECULE_DISTRO="ubuntu-devel" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="ubuntu:devel"
-    - env: MOLECULE_DISTRO="ubuntu-devel" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="ubuntu:devel"
+    - env: SCENARIO="docker" MOLECULE_DISTRO="alpine-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="alpine:latest" MOLECULE_DOCKER_COMMAND="sh -c 'while true ; do sleep 1 ; done'"
+    - env: SCENARIO="docker" MOLECULE_DISTRO="alpine-edge" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="alpine:edge" MOLECULE_DOCKER_COMMAND="sh -c 'while true ; do sleep 1 ; done'"
+    - env: SCENARIO="docker" MOLECULE_DISTRO="alpine-edge" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="alpine:edge" MOLECULE_DOCKER_COMMAND="sh -c 'while true ; do sleep 1 ; done'"
+    - env: SCENARIO="docker" MOLECULE_DISTRO="archlinux-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="base/archlinux"
+    - env: SCENARIO="docker" MOLECULE_DISTRO="centos-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="centos:latest"
+    - env: SCENARIO="docker" MOLECULE_DISTRO="debian-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="debian:latest"
+    - env: SCENARIO="docker" MOLECULE_DISTRO="debian-unstable" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="debian:unstable"
+    - env: SCENARIO="docker" MOLECULE_DISTRO="debian-unstable" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="debian:unstable"
+    - env: SCENARIO="docker" MOLECULE_DISTRO="fedora-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="fedora:latest"
+    - env: SCENARIO="docker" MOLECULE_DISTRO="fedora-rawhide" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="fedora:rawhide"
+    - env: SCENARIO="docker" MOLECULE_DISTRO="fedora-rawhide" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="fedora:rawhide"
+    - env: SCENARIO="docker" MOLECULE_DISTRO="opensuse-leap" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="opensuse/leap:latest"
+    - env: SCENARIO="docker" MOLECULE_DISTRO="opensuse-tumbleweed" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="opensuse/tumbleweed:latest"
+    - env: SCENARIO="docker" MOLECULE_DISTRO="ubuntu-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="ubuntu:latest"
+    - env: SCENARIO="docker" MOLECULE_DISTRO="ubuntu-devel" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="ubuntu:devel"
+    - env: SCENARIO="docker" MOLECULE_DISTRO="ubuntu-devel" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="ubuntu:devel"
+    - env: SCENARIO="ec2" MOLECULE_DISTRO="fedora-latest" ANSIBLE="devel" MOLECULE_EC2_AMI="ami-03337e8290f6f0928"
+    - env: SCENARIO="ec2" MOLECULE_DISTRO="ubuntu-latest" ANSIBLE="devel" MOLECULE_EC2_AMI="ami-0cf8fa6a01bb07363"
+    - env: SCENARIO="ec2" MOLECULE_DISTRO="centos-latest" ANSIBLE="devel" MOLECULE_EC2_AMI="ami-dd3c0f36"
+    - env: SCENARIO="ec2" MOLECULE_DISTRO="debian-latest" ANSIBLE="devel" MOLECULE_EC2_AMI="ami-0ca467408e84df23c"
 
 cache:
   - pip
@@ -60,11 +72,18 @@ before_install:
   - sudo apt-get -qq update
 
 install:
-  - pip install --upgrade pip
-  - pip install tox-travis
- 
-script:
-  - tox
+  - pip instec2 --upgrade pip
+  - pip instec2 tox-travis
+
+jobs:
+  include:
+    - name: "Test (Docker)"
+      script: tox
+      if: env(scenario) = docker
+    - stage: ec2
+      name: "Test (Amazon EC2)"
+      script: if [ "${AWS_ACCESS_KEY:-none}" != "none" ] ; then tox ; fi
+      if: env(scenario) = ec2
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

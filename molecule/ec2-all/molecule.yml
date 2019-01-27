@@ -11,23 +11,23 @@ lint:
     config-file: molecule/.yamllint
 platforms:
   # https://docs.aws.amazon.com/en_us/AWSEC2/latest/UserGuide/finding-an-ami.html
-  - name: instance-ec2-amazon-linux-2
+  - name: instance-amazon-linux-2-ec2
     image: ami-02ea8f348fa28c108
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
-  - name: instance-ec2-centos-latest
+  - name: instance-centos-latest-ec2
     image: ami-dd3c0f36
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
-  - name: instance-ec2-debian-latest
+  - name: instance-debian-latest-ec2
     image: ami-0ca467408e84df23c
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
-  - name: instance-ec2-fedora-latest
+  - name: instance-fedora-latest-ec2
     image: ami-03337e8290f6f0928
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
-  - name: instance-ec2-ubuntu-latest
+  - name: instance-ubuntu-latest-ec2
     image: ami-0cf8fa6a01bb07363
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
@@ -42,13 +42,13 @@ provisioner:
     converge: ${MOLECULE_PLAYBOOK:-../playbook.yml}
   inventory:
     host_vars:
-      instance-ec2-centos-latest:
+      instance-centos-latest-ec2:
         ansible_user: centos
-      instance-ec2-debian-latest:
+      instance-debian-latest-ec2:
         ansible_user: debian
-      instance-ec2-fedora-latest:
+      instance-fedora-latest-ec2:
         ansible_user: fedora
-      instance-ec2-ubuntu-latest:
+      instance-ubuntu-latest-ec2:
         ansible_user: ubuntu
 scenario:
   name: ec2-all
