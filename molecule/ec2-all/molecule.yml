@@ -47,17 +47,17 @@ provisioner:
     defaults:
       callback_plugins: /usr/lib/python2.7/site-packages/ara/plugins/callbacks
   playbook:
-    converge: ${MOLECULE_PLAYBOOK:-../playbook.yml}
+    converge: ${MOLECULE_PLAYBOOK:-playbook.yml}
   inventory:
     group_vars:
       centos-latest-ec2:
-        ansible_user: centos
+        bootstrap_user: centos
       debian-latest-ec2:
-        ansible_user: debian
+        bootstrap_user: debian
       fedora-latest-ec2:
-        ansible_user: fedora
+        bootstrap_user: fedora
       ubuntu-latest-ec2:
-        ansible_user: ubuntu
+        bootstrap_user: ubuntu
 scenario:
   name: ec2-all
 verifier:

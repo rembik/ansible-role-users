@@ -15,13 +15,12 @@
           - name: nouser
             comment: No User
             create_home: no
-          - name: admin
+          - name: molecule
             comment: Ansible Management User
             uid: 2001
             groups: [users, bin]
             cron: yes
             sudo: yes
-            shell: /bin/sh
             profile: |
               alias ll='ls -lah'
               alias cp='cp -iv'
@@ -39,3 +38,4 @@
             comment: User
             uid: 2003
             groups: [users]
+            shell: /bin/sh

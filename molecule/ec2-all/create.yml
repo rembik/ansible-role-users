@@ -5,7 +5,7 @@
   gather_facts: false
   no_log: "{{ not (lookup('env', 'MOLECULE_DEBUG') | bool or molecule_yml.provisioner.log|default(false) | bool) }}"
   vars:
-    ssh_user: ec2-user
+    ssh_user: molecule
     ssh_port: 22
 
     security_group_name: molecule
@@ -53,9 +53,16 @@
 
     - name: Persist the keypair
       copy:
-        dest: "{{ keypair_path }}"
-        content: "{{ keypair.key.private_key }}"
-        mode: 0600
+        dest: "{{ item.dest }}"
+        content: "{{ item.content }}"
+        mode: "{{ item.mode }}"
+      with_items:
+        - dest: "{{ keypair_path }}"
+          content: "{{ keypair.key.private_key }}"
+          mode: "600"
+        - dest: "{{ keypair_path }}.pub"
+          content: "{{ keypair.key.public_key }}"
+          mode: "644"
       when: keypair.changed
 
     - name: Gather facts about all VPC subnets
