@@ -40,7 +40,7 @@ env:
     - SCENARIO="ec2" MOLECULE_DISTRO="fedora-latest" ANSIBLE="stable" MOLECULE_EC2_AMI="ami-03337e8290f6f0928"
     - SCENARIO="ec2" MOLECULE_DISTRO="fedora-latest" ANSIBLE="devel" MOLECULE_EC2_AMI="ami-03337e8290f6f0928"
     - SCENARIO="ec2" MOLECULE_DISTRO="ubuntu-latest" ANSIBLE="stable" MOLECULE_EC2_AMI="ami-0cf8fa6a01bb07363"
-    - SCENARIO="ec2" MOLECULE_DISTRO="ubuntu-latest" ANSIBLE="devel" MOLECULE_EC2_AMI="ami-0cf8fa6a01bb07363"   
+    - SCENARIO="ec2" MOLECULE_DISTRO="ubuntu-latest" ANSIBLE="devel" MOLECULE_EC2_AMI="ami-0cf8fa6a01bb07363"
 
 matrix:
   allow_failures:
