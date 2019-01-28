@@ -13,7 +13,7 @@ lint:
     config-file: molecule/.yamllint
 platforms:
   # https://app.vagrantup.com/boxes/search
-  - name: "${MOLECULE_INSTANCE_PREFIX:-instance}-vagrant-${MOLECULE_DISTRO:-centos-latest}"
+  - name: "${MOLECULE_INSTANCE_PREFIX:-instance}-${MOLECULE_DISTRO:-centos-latest}-vagrant"
     image: ${MOLECULE_VBOX:-centos/7}
 provisioner:
   name: ansible

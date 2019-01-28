@@ -19,18 +19,26 @@ platforms:
     image: ami-dd3c0f36
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
+    groups:
+      - centos-latest-ec2
   - name: instance-debian-latest-ec2
     image: ami-0ca467408e84df23c
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
+    groups:
+      - debian-latest-ec2
   - name: instance-fedora-latest-ec2
     image: ami-03337e8290f6f0928
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
+    groups:
+      - fedora-latest-ec2
   - name: instance-ubuntu-latest-ec2
     image: ami-0cf8fa6a01bb07363
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
+    groups:
+      - ubuntu-latest-ec2
 provisioner:
   name: ansible
   lint:
@@ -41,14 +49,14 @@ provisioner:
   playbook:
     converge: ${MOLECULE_PLAYBOOK:-../playbook.yml}
   inventory:
-    host_vars:
-      instance-centos-latest-ec2:
+    group_vars:
+      centos-latest-ec2:
         ansible_user: centos
-      instance-debian-latest-ec2:
+      debian-latest-ec2:
         ansible_user: debian
-      instance-fedora-latest-ec2:
+      fedora-latest-ec2:
         ansible_user: fedora
-      instance-ubuntu-latest-ec2:
+      ubuntu-latest-ec2:
         ansible_user: ubuntu
 scenario:
   name: ec2-all
