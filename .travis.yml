@@ -64,7 +64,6 @@ install:
   - pip install tox-travis
 
 script:
-  - tox -l
   - tox
 
 notifications:
