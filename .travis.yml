@@ -76,6 +76,7 @@ install:
   - pip install tox-travis
 
 script:
+  - tox -l
   - if [ "${SCENARIO}" = "docker" ] ; then tox ; fi
   - if [ "${SCENARIO}" = "ec2" ] && [ "${AWS_ACCESS_KEY:-none}" != "none" ] ; then tox ; fi
 
