@@ -25,8 +25,8 @@
         to_port: 0
         cidr_ip: '0.0.0.0/0'
 
-    keypair_name: "molecule_{{ (lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') | hash('sha256'))[:7] }}_key"
-    keypair_path: "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/ssh_key"
+    keypair_name: "molecule_{{ (lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') | hash('sha256'))[:7] }}"
+    keypair_path: "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/ssh_key/molecule"
   tasks:
     - name: Create security group
       ec2_group:
@@ -53,16 +53,9 @@
 
     - name: Persist the keypair
       copy:
-        dest: "{{ item.dest }}"
-        content: "{{ item.content }}"
-        mode: "{{ item.mode }}"
-      with_items:
-        - dest: "{{ keypair_path }}"
-          content: "{{ keypair.key.private_key }}"
-          mode: "600"
-        - dest: "{{ keypair_path }}.pub"
-          content: "{{ keypair.key.public_key }}"
-          mode: "644"
+        dest: "{{ keypair_path }}"
+        content: "{{ keypair.key.private_key }}"
+        mode: 0600
       when: keypair.changed
 
     - name: Gather facts about all VPC subnets
