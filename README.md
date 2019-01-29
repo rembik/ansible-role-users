@@ -114,7 +114,7 @@ This example is taken from `molecule/playbook.yml`:
     - role: rembik.bootstrap
     - role: rembik.users
       vars:
-        users_ssh_key_dir: "{{ lookup('file', lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') + '/ssh_keys', errors='ignore') }}"
+        users_ssh_key_dir: "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/ssh_key"
         users_groups:
           - name: users
           - name: bin
