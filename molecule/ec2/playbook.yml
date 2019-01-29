@@ -8,7 +8,7 @@
     - role: rembik.bootstrap
     - role: ansible-role-users
       vars:
-        users_ssh_key_dir: "{{ lookup('file', lookup('env', MOLECULE_EPHEMERAL_DIRECTORY) + '/ssh_keys', errors='ignore') }}"
+        users_ssh_key_dir: "{{ lookup('file', lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') + '/ssh_keys', errors='ignore') }}"
         users_groups:
           - name: users
           - name: bin
