@@ -25,7 +25,7 @@
         to_port: 0
         cidr_ip: '0.0.0.0/0'
 
-    keypair_name: "molecule_{{ (lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') | hash('sha256'))[:7] }}"
+    keypair_name: "molecule_{{ (lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') | hash('sha256'))[:15] }}"
     keypair_path: "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/ssh_key/molecule"
   tasks:
     - name: Create security group
