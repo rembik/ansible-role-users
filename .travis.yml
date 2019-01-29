@@ -16,7 +16,7 @@ env:
     - MOLECULE_DISTRO="archlinux-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="base/archlinux"
     - MOLECULE_DISTRO="centos-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="centos:latest" MOLECULE_EC2_AMI="ami-dd3c0f36"
     - MOLECULE_DISTRO="centos-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="centos:latest"
-    - MOLECULE_DISTRO="debian-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="debian:latest" MOLECULE_EC2_AMI="ami-0ca467408e84df23c" MOLECULE_EC2_ROOT_VOLUME="/dev/xvda"
+    - MOLECULE_DISTRO="debian-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="debian:latest" MOLECULE_EC2_AMI="ami-0ca467408e84df23c" MOLECULE_EC2_ROOT_DEVICE="xvda"
     - MOLECULE_DISTRO="debian-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="debian:latest"
     - MOLECULE_DISTRO="debian-unstable" ANSIBLE="all" MOLECULE_DOCKER_IMAGE="debian:unstable"
     - MOLECULE_DISTRO="fedora-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="fedora:latest" MOLECULE_EC2_AMI="ami-0f904cfaa69a1c64c"

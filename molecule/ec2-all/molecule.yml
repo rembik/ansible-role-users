@@ -12,9 +12,11 @@ lint:
 platforms:
   # https://docs.aws.amazon.com/en_us/AWSEC2/latest/UserGuide/finding-an-ami.html
   - name: instance-amazon-linux-2-ec2
-    image: ami-02ea8f348fa28c108
+    image: ami-0eaec5838478eb0ba
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
+    root_device:
+      device_name: /dev/xvda
     groups:
       - amazon-linux-2-ec2
   - name: instance-centos-latest-ec2
@@ -27,14 +29,14 @@ platforms:
     image: ami-0ca467408e84df23c
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
+    root_device:
+      device_name: xvda
     groups:
       - debian-latest-ec2
   - name: instance-fedora-latest-ec2
     image: ami-0f904cfaa69a1c64c
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
-    root_volume:
-      device_name: /dev/xvda
     groups:
       - fedora-latest-ec2
   - name: instance-ubuntu-latest-ec2
