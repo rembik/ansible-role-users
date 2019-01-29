@@ -37,7 +37,7 @@
 
     - name: Persist local keypair directory
       file:
-        path: "{{ keypair_path }}"
+        path: "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/ssh_key"
         state: directory
 
     - name: Test for presence of local keypair
