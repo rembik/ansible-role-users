@@ -33,6 +33,8 @@ platforms:
     image: ami-0f904cfaa69a1c64c
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
+    root_volume:
+      device_name: /dev/xvda
     groups:
       - fedora-latest-ec2
   - name: instance-ubuntu-latest-ec2
@@ -58,8 +60,6 @@ provisioner:
         bootstrap_user: centos
       debian-latest-ec2:
         bootstrap_user: admin
-        volume_root:
-          device_name: /dev/xvda
       fedora-latest-ec2:
         bootstrap_user: fedora
       ubuntu-latest-ec2:

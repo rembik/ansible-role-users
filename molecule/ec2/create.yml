@@ -79,9 +79,9 @@
         wait: true
         assign_public_ip: true
         volumes:
-          - device_name: "{{ volume_root.device_name | default('/dev/sda1') }}"
-            volume_type: gp2
-            volume_size: "{{ volume_root.volume_size | default(8) }}"
+          - device_name: "{{ (item.root_volume | default({}))['device_name'] | default('/dev/sda1', True) }}"
+            volume_type: "{{ (item.root_volume | default({}))['volume_type'] | default('gp2', True) }}"
+            volume_size: "{{ (item.root_volume | default({}))['volume_size'] | default(8, True) }}"
             delete_on_termination: yes
         exact_count: 1
         count_tag:
