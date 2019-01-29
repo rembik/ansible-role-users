@@ -21,8 +21,8 @@ env:
     - MOLECULE_DISTRO="debian-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="debian:latest" MOLECULE_EC2_AMI="ami-0ca467408e84df23c"
     - MOLECULE_DISTRO="debian-unstable" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="debian:unstable"
     - MOLECULE_DISTRO="debian-unstable" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="debian:unstable"
-    - MOLECULE_DISTRO="fedora-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="fedora:latest" MOLECULE_EC2_AMI="ami-03337e8290f6f0928"
-    - MOLECULE_DISTRO="fedora-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="fedora:latest" MOLECULE_EC2_AMI="ami-03337e8290f6f0928"
+    - MOLECULE_DISTRO="fedora-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="fedora:latest" MOLECULE_EC2_AMI="ami-0f904cfaa69a1c64c"
+    - MOLECULE_DISTRO="fedora-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="fedora:latest" MOLECULE_EC2_AMI="ami-0f904cfaa69a1c64c"
     - MOLECULE_DISTRO="fedora-rawhide" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="fedora:rawhide"
     - MOLECULE_DISTRO="fedora-rawhide" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="fedora:rawhide"
     - MOLECULE_DISTRO="opensuse-leap" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="opensuse/leap:latest"
@@ -44,7 +44,7 @@ matrix:
     - env: MOLECULE_DISTRO="debian-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="debian:latest" MOLECULE_EC2_AMI="ami-0ca467408e84df23c"
     - env: MOLECULE_DISTRO="debian-unstable" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="debian:unstable"
     - env: MOLECULE_DISTRO="debian-unstable" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="debian:unstable"
-    - env: MOLECULE_DISTRO="fedora-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="fedora:latest" MOLECULE_EC2_AMI="ami-03337e8290f6f0928"
+    - env: MOLECULE_DISTRO="fedora-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="fedora:latest" MOLECULE_EC2_AMI="ami-0f904cfaa69a1c64c"
     - env: MOLECULE_DISTRO="fedora-rawhide" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="fedora:rawhide"
     - env: MOLECULE_DISTRO="fedora-rawhide" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="fedora:rawhide"
     - env: MOLECULE_DISTRO="opensuse-leap" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="opensuse/leap:latest"
@@ -64,7 +64,7 @@ install:
   - pip install tox-travis
 
 script:
-  - tox ${TOX_OPTIONS:---parallel auto}
+  - tox
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
