@@ -35,6 +35,11 @@
         rules: "{{ security_group_rules }}"
         rules_egress: "{{ security_group_rules_egress }}"
 
+    - name: Persist local keypair directory
+      file:
+        path: "{{ keypair_path }}"
+        state: directory
+
     - name: Test for presence of local keypair
       stat:
         path: "{{ keypair_path }}"
