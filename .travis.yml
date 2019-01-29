@@ -64,7 +64,7 @@ install:
   - pip install tox-travis
 
 script:
-  - tox
+  - tox ${TOX_OPTIONS:---parallel auto}
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
