@@ -15,6 +15,8 @@ platforms:
     image: ami-02ea8f348fa28c108
     instance_type: t2.micro
     vpc_subnet_id: ${MOLECULE_EC2_VPC_SUBNET_ID:-""}
+    groups:
+      - amazon-linux-2-ec2
   - name: instance-centos-latest-ec2
     image: ami-dd3c0f36
     instance_type: t2.micro
@@ -50,10 +52,12 @@ provisioner:
     converge: ${MOLECULE_PLAYBOOK:-../playbook.yml}
   inventory:
     group_vars:
+      amazon-linux-2-ec2:
+        bootstrap_user: ec2-user
       centos-latest-ec2:
         bootstrap_user: centos
       debian-latest-ec2:
-        bootstrap_user: debian
+        bootstrap_user: admin
       fedora-latest-ec2:
         bootstrap_user: fedora
       ubuntu-latest-ec2:

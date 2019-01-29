@@ -31,7 +31,7 @@ provisioner:
       centos-latest-ec2:
         bootstrap_user: centos
       debian-latest-ec2:
-        bootstrap_user: debian
+        bootstrap_user: admin
       fedora-latest-ec2:
         bootstrap_user: fedora
       ubuntu-latest-ec2:

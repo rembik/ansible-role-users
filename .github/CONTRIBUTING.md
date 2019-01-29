@@ -25,7 +25,18 @@ You can decide, if you want to run the tests locally with Docker, Vagrant or on 
 
 Then run the test with the chosen deployment method:
 ```
+molecule test --senario-name default
 molecule test --senario-name docker-all
+
+molecule test --scenario-name ec2
 molecule test --scenario-name ec2-all
+
 molecule test --scenario-name vagrant
+```
+
+In addition, if you want to run the tests on different Ansible versions locally with Docker and/or on Amazon EC2, use [tox](https://tox.readthedocs.io/en/latest/):
+```
+sudo pip install tox-travis
+
+tox
 ```

@@ -97,7 +97,7 @@ The following parameters are available for each group dictionary:
 Dependencies
 ------------
 
-In general this role has no dependencies. In combination with the recommended role [`rembik.bootstrap`](https://github.com/rembik/ansible-role-bootstrap), this role uses the temporary registered `bootstrap_remote_user` to connect to the remote host and executing this role tasks.
+In general this role has no dependencies. In combination with the recommended role [`rembik.bootstrap`](https://github.com/rembik/ansible-role-bootstrap), this role uses the temporary registered `bootstrap_ansible_user` to connect to the remote host and executing this role tasks.
 
 Example Playbook
 ----------------
@@ -114,6 +114,7 @@ This example is taken from `molecule/playbook.yml`:
     - role: rembik.bootstrap
     - role: rembik.users
       vars:
+        users_ssh_key_dir: "{{ lookup('file', lookup('env', MOLECULE_EPHEMERAL_DIRECTORY) + '/ssh_keys', errors='ignore') }}"
         users_groups:
           - name: users
           - name: bin
@@ -121,18 +122,17 @@ This example is taken from `molecule/playbook.yml`:
           - name: nouser
             comment: No User
             create_home: no
-          - name: admin
+          - name: molecule
             comment: Ansible Management User
             uid: 2001
             groups: [users, bin]
             cron: yes
             sudo: yes
-            shell: /bin/sh
             profile: |
               alias ll='ls -lah'
               alias cp='cp -iv'
             ssh_key:
-              - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVpUJQCOaPg3p5xro9e+1fkGRWNOGrrExiKMqTE91Fwu349bxfMnMzRS0PAERouR9EEL+Ee4Yzhav/uNc35eCtXzACtluXnAncMrQj6pM3IqASynhvXTygHljmcMbBSDQtLrTZeW+YzIcOgk5UM1yBi26WoUYva2aCr9IRvKdYreAK08OiMdZedpOye0ZdvIYJGcyITwc6YMmrAhP7jZlrk/mDEkf2a4eBp+475o7MJtaC9npqYkToM8vqvx5AGEKqXt7/f1/paOY7KsR+VGPQy6k2RkXjWBsXPesZ3d3XLZHE60wAk0EsuJO8A25+uWSB6ILQeRSYYmGea/WIf6kd noone@throwaway.example.com"
+              - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABWBILQeRSYYmGea/WIf6kd nobody@example.com"
             generate_ssh_key: yes
           - name: test
             comment: Ansible Test User
@@ -145,6 +145,7 @@ This example is taken from `molecule/playbook.yml`:
             comment: User
             uid: 2003
             groups: [users]
+            shell: /bin/sh
 
 ```
 

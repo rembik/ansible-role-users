@@ -2,7 +2,6 @@
 # tasks file for users
 
 - name: Bootstrap users
-  remote_user: "{{ bootstrap_remote_user | default(omit) }}"
   block:
 
     - name: Setup user groups
@@ -115,3 +114,6 @@
       loop_control:
         label: "{{ item.name }}"
       tags: ['users', 'configuration']
+
+  vars:
+    ansible_user: "{{ bootstrap_ansible_user | default(omit) }}"
