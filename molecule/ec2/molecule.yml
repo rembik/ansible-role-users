@@ -32,6 +32,8 @@ provisioner:
         bootstrap_user: centos
       debian-latest-ec2:
         bootstrap_user: admin
+        volume_root:
+          device_name: /dev/xvda
       fedora-latest-ec2:
         bootstrap_user: fedora
       ubuntu-latest-ec2:
