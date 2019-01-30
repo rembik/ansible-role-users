@@ -39,8 +39,8 @@ matrix:
     - env: MOLECULE_DISTRO="ubuntu-devel" ANSIBLE="all" MOLECULE_DOCKER_IMAGE="ubuntu:devel"
 
 stages:
-  - test (stable)
-  - name: test (AWS EC2)
+  - test (docker)
+  - name: test (ec2)
     if: |
       env(AWS_ACCESS_KEY) IS present AND \
       env(AWS_SECRET_ACCESS_KEY) IS present AND \
@@ -64,9 +64,8 @@ install:
 
 jobs:
   include:
-    - stage: test (stable)
-      env:
-        - MOLECULE_DISTRO="alpine-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="alpine:latest" MOLECULE_DOCKER_COMMAND="sh -c 'while true ; do sleep 1 ; done'"
+    - stage: test (docker)
+      env: MOLECULE_DISTRO="alpine-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="alpine:latest" MOLECULE_DOCKER_COMMAND="sh -c 'while true ; do sleep 1 ; done'"
         - MOLECULE_DISTRO="archlinux-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="base/archlinux"
         - MOLECULE_DISTRO="centos-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="centos:latest"
         - MOLECULE_DISTRO="debian-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="debian:latest"
@@ -74,15 +73,19 @@ jobs:
         - MOLECULE_DISTRO="opensuse-leap" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="opensuse/leap:latest"
         - MOLECULE_DISTRO="opensuse-tumbleweed" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="opensuse/tumbleweed:latest"
         - MOLECULE_DISTRO="ubuntu-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="ubuntu:latest"
-    - stage: test (AWS EC2)
+    - stage: test (ec2)
       env:
         - MOLECULE_DISTRO="centos-latest" ANSIBLE="stable" MOLECULE_EC2_AMI="ami-dd3c0f36"
+    - stage: test (ec2)
+      env:
         - MOLECULE_DISTRO="debian-latest" ANSIBLE="stable" MOLECULE_EC2_AMI="ami-0ca467408e84df23c" MOLECULE_EC2_ROOT_DEVICE="xvda"
+    - stage: test (ec2)
+      env:
         - MOLECULE_DISTRO="fedora-latest" ANSIBLE="stable" MOLECULE_EC2_AMI="ami-0f904cfaa69a1c64c"
+    - stage: test (ec2)
+      env:
         - MOLECULE_DISTRO="ubuntu-latest" ANSIBLE="stable" MOLECULE_EC2_AMI="ami-0cf8fa6a01bb07363"
       script: tox -e "ec2-ansible{26,27}-py{27}"
-    - stage: test
-      script: tox -e "docker-ansible{25,26,27,dev}-py{27}"
     - stage: release
       script: skip
 
