@@ -46,6 +46,13 @@ matrix:
     - env: MOLECULE_DISTRO="ubuntu-latest" ANSIBLE="devel" MOLECULE_DOCKER_IMAGE="ubuntu:latest"
     - env: MOLECULE_DISTRO="ubuntu-devel" ANSIBLE="all" MOLECULE_DOCKER_IMAGE="ubuntu:devel"
 
+addons:
+  apt:
+    packages:
+      # Hotfix for text coloring
+      # https://github.com/travis-ci/travis-ci/issues/7967#issuecomment-424521694
+      - expect-dev
+
 cache:
   - pip
 
@@ -57,10 +64,7 @@ install:
   - pip install tox-travis
 
 script:
-  - tox
-  - |
-    if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${AWS_ACCESS_KEY:-no}" != "no" ] && [ "${MOLECULE_EC2_AMI:-no}" != "no" ]; then \
-    tox -e "ec2-ansible{26,27}-py{27}" ; fi
+  - unbuffer tox
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
