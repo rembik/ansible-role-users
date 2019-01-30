@@ -5,7 +5,7 @@
   become: true
 
   roles:
-    - role: rembik.bootstrap
+    - role: robertdebock.bootstrap
     - role: ansible-role-users
       vars:
         users_ssh_key_dir: "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/ssh_key"

@@ -57,15 +57,15 @@ provisioner:
   inventory:
     group_vars:
       amazon-linux-2-ec2:
-        bootstrap_user: ec2-user
+        ansible_user: ec2-user
       centos-latest-ec2:
-        bootstrap_user: centos
+        ansible_user: centos
       debian-latest-ec2:
-        bootstrap_user: admin
+        ansible_user: admin
       fedora-latest-ec2:
-        bootstrap_user: fedora
+        ansible_user: fedora
       ubuntu-latest-ec2:
-        bootstrap_user: ubuntu
+        ansible_user: ubuntu
 scenario:
   name: ec2-all
 verifier:

@@ -4,7 +4,7 @@ Thanks! There are a few guidelines that we need contributors to follow so that w
 
 ## Report
 
-You can report bugs or make enhancement requests at this [GitHub project issue page](http://github.com/rembik/ansible-role-users/issues/new/choose) by filling out the issue template that will be presented.
+You can report bugs or make enhancement requests at this [GitHub project issue page](http://github.com/robertdebock/ansible-role-users/issues/new/choose) by filling out the issue template that will be presented.
 
 ## Develop
 
@@ -19,9 +19,9 @@ sudo pip install molecule
 ```
 
 You can decide, if you want to run the tests locally with Docker, Vagrant or on Amazon EC2. Follow the respective requirements for that:
-- [Docker](http://github.com/rembik/ansible-role-users/tree/master/molecule/docker-all/INSTALL.rst)
-- [Amazon EC2](http://github.com/rembik/ansible-role-users/tree/master/molecule/ec2-all/INSTALL.rst)
-- [Vagrant](http://github.com/rembik/ansible-role-users/tree/master/molecule/vagrant/INSTALL.rst)
+- [Docker](http://github.com/robertdebock/ansible-role-users/tree/master/molecule/docker-all/INSTALL.rst)
+- [Amazon EC2](http://github.com/robertdebock/ansible-role-users/tree/master/molecule/ec2-all/INSTALL.rst)
+- [Vagrant](http://github.com/robertdebock/ansible-role-users/tree/master/molecule/vagrant/INSTALL.rst)
 
 Then run the test with the chosen deployment method:
 ```

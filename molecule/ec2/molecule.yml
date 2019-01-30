@@ -31,13 +31,13 @@ provisioner:
   inventory:
     group_vars:
       centos-latest-ec2:
-        bootstrap_user: centos
+        ansible_user: centos
       debian-latest-ec2:
-        bootstrap_user: admin
+        ansible_user: admin
       fedora-latest-ec2:
-        bootstrap_user: fedora
+        ansible_user: fedora
       ubuntu-latest-ec2:
-        bootstrap_user: ubuntu
+        ansible_user: ubuntu
 scenario:
   name: ec2
 verifier:
