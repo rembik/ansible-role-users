@@ -66,25 +66,25 @@ jobs:
   include:
     - stage: test (docker)
       env: MOLECULE_DISTRO="alpine-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="alpine:latest" MOLECULE_DOCKER_COMMAND="sh -c 'while true ; do sleep 1 ; done'"
-        - MOLECULE_DISTRO="archlinux-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="base/archlinux"
-        - MOLECULE_DISTRO="centos-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="centos:latest"
-        - MOLECULE_DISTRO="debian-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="debian:latest"
-        - MOLECULE_DISTRO="fedora-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="fedora:latest"
-        - MOLECULE_DISTRO="opensuse-leap" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="opensuse/leap:latest"
-        - MOLECULE_DISTRO="opensuse-tumbleweed" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="opensuse/tumbleweed:latest"
-        - MOLECULE_DISTRO="ubuntu-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="ubuntu:latest"
+      env: MOLECULE_DISTRO="archlinux-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="base/archlinux"
+      env: MOLECULE_DISTRO="centos-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="centos:latest"
+      env: MOLECULE_DISTRO="debian-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="debian:latest"
+      env: MOLECULE_DISTRO="fedora-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="fedora:latest"
+      env: MOLECULE_DISTRO="opensuse-leap" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="opensuse/leap:latest"
+      env: MOLECULE_DISTRO="opensuse-tumbleweed" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="opensuse/tumbleweed:latest"
+      env: MOLECULE_DISTRO="ubuntu-latest" ANSIBLE="stable" MOLECULE_DOCKER_IMAGE="ubuntu:latest"
     - stage: test (ec2)
-      env:
-        - MOLECULE_DISTRO="centos-latest" ANSIBLE="stable" MOLECULE_EC2_AMI="ami-dd3c0f36"
+      env: MOLECULE_DISTRO="centos-latest" ANSIBLE="stable" MOLECULE_EC2_AMI="ami-dd3c0f36"
+      script: tox -e "ec2-ansible{26,27}-py{27}"
     - stage: test (ec2)
-      env:
-        - MOLECULE_DISTRO="debian-latest" ANSIBLE="stable" MOLECULE_EC2_AMI="ami-0ca467408e84df23c" MOLECULE_EC2_ROOT_DEVICE="xvda"
+      script: tox -e "ec2-ansible{26,27}-py{27}"
+      env: MOLECULE_DISTRO="debian-latest" ANSIBLE="stable" MOLECULE_EC2_AMI="ami-0ca467408e84df23c" MOLECULE_EC2_ROOT_DEVICE="xvda"
     - stage: test (ec2)
-      env:
-        - MOLECULE_DISTRO="fedora-latest" ANSIBLE="stable" MOLECULE_EC2_AMI="ami-0f904cfaa69a1c64c"
+      script: tox -e "ec2-ansible{26,27}-py{27}"
+      env: MOLECULE_DISTRO="fedora-latest" ANSIBLE="stable" MOLECULE_EC2_AMI="ami-0f904cfaa69a1c64c"
+      script: tox -e "ec2-ansible{26,27}-py{27}"
     - stage: test (ec2)
-      env:
-        - MOLECULE_DISTRO="ubuntu-latest" ANSIBLE="stable" MOLECULE_EC2_AMI="ami-0cf8fa6a01bb07363"
+      env: MOLECULE_DISTRO="ubuntu-latest" ANSIBLE="stable" MOLECULE_EC2_AMI="ami-0cf8fa6a01bb07363"
       script: tox -e "ec2-ansible{26,27}-py{27}"
     - stage: release
       script: skip
