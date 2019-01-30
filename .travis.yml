@@ -57,8 +57,10 @@ install:
   - pip install tox-travis
 
 script:
-  - tox -e "docker-ansible{25,26,27,dev}-py{27}"
-  - if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${AWS_ACCESS_KEY:-no}" != "no" ] && [ "${MOLECULE_EC2_AMI:-no}" != "no" ]; then tox -e "ec2-ansible{26,27}-py{27}" ; fi
+  - tox
+  - |
+    if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${AWS_ACCESS_KEY:-no}" != "no" ] && [ "${MOLECULE_EC2_AMI:-no}" != "no" ]; then \
+    tox -e "ec2-ansible{26,27}-py{27}" ; fi
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
