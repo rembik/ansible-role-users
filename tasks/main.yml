@@ -23,7 +23,7 @@
         label: "{{ item.name }}"
       when:
         - item.state | default('present') == 'present'
-        - 'group' not in item
+        - "'group' not in item"
         - users_group_per_user | bool
       tags: ['users', 'configuration']
 
@@ -59,7 +59,7 @@
         label: "{{ item.name }}"
       when:
         - item.state | default('present') == 'absent'
-        - 'group' not in item
+        - "'group' not in item"
         - users_group_per_user | bool
       tags: ['users', 'configuration']
 
