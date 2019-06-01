@@ -4,23 +4,27 @@
 - name: Bootstrap users
   block:
 
-    - name: Setup user groups
+    - name: Create user groups
       group:
         name: "{{ item.name }}"
-        state: "{{ item.state | default('present') }}"
+        state: present
         gid: "{{ item.gid | default(omit) }}"
       with_items: "{{ users_groups }}"
+      when: item.state | default('present') == 'present'
       tags: ['users', 'groups', 'configuration']
 
-    - name: Setup group per user
+    - name: Create group per user
       group:
         name: "{{ item.name }}"
-        state: "{{ item.state | default('present') }}"
+        state: present
         gid: "{{ item.gid | default(item.uid) | default(omit) }}"
       with_items: "{{ users }}"
       loop_control:
         label: "{{ item.name }}"
-      when: "'group' not in item and users_group_per_user | bool"
+      when:
+        - item.state | default('present') == 'present'
+        - 'group' not in item
+        - users_group_per_user | bool
       tags: ['users', 'configuration']
 
     - name: Setup users
@@ -44,6 +48,29 @@
       loop_control:
         label: "{{ item.name }}"
       tags: ['users', 'configuration']
+
+    - name: Delete group per user
+      group:
+        name: "{{ item.name }}"
+        state: absent
+        gid: "{{ item.gid | default(item.uid) | default(omit) }}"
+      with_items: "{{ users }}"
+      loop_control:
+        label: "{{ item.name }}"
+      when:
+        - item.state | default('present') == 'absent'
+        - 'group' not in item
+        - users_group_per_user | bool
+      tags: ['users', 'configuration']
+
+    - name: Delete user groups
+      group:
+        name: "{{ item.name }}"
+        state: absent
+        gid: "{{ item.gid | default(omit) }}"
+      with_items: "{{ users_groups }}"
+      when: item.state | default('present') == 'absent'
+      tags: ['users', 'groups', 'configuration']
 
     - name: Prepare users cron permission
       template:
