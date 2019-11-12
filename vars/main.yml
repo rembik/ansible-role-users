@@ -1,0 +1,21 @@
+---
+
+_users_packages:
+  NA: shadow
+  Amazon: shadow-utils
+  Alpine: shadow
+  Archlinux: shadow
+  CentOS: shadow-utils
+  Debian: shadow
+  Fedora: shadow-utils
+  Gentoo: shadow
+  Kali: shadow
+  openSUSE Leap: shadow
+  openSUSE Tumbleweed: shadow
+  RedHat: shadow-utils
+  Ubuntu: shadow
+
+# Map the right set of packages, based on gathered facts.
+# yamllint disable-line rule:line-length
+users_packages: "{{ _users_packages[ansible_distribution ~'-'~ ansible_distribution_major_version]|default(
+                         _users_packages[ansible_distribution]) }}"

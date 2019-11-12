@@ -9,8 +9,7 @@
       package:
         name: "{{ item }}"
         state: present
-      with_items:
-        - shadow-utils
+      with_items: "{{ users_packages.split() }}"
       register: users_packages_install
       until: users_packages_install is succeeded
       retries: 3
