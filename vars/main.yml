@@ -2,9 +2,9 @@
 
 _users_packages:
   NA:
-  Alpine:
+  Alpine: shadow
   Amazon: shadow-utils
-  Archlinux:
+  Archlinux: shadow
   CentOS:
   Debian:
   Fedora:
