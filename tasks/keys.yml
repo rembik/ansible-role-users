@@ -94,12 +94,15 @@
   copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    owner: "{{ users_user.name }}"
+    group: "{{ users_user.group | default(users_user.name if users_group_per_user | bool else users_group) }}"
   with_items:
     - src: "{{ users_ssh_key_dir }}/{{ users_user.name }}"
       dest: "{{ users_user.home | default('/home/' + users_user.name) }}/.ssh/id_rsa"
+      mode: "600"
     - src: "{{ users_ssh_key_dir }}/{{ users_user.name }}.pub"
       dest: "{{ users_user.home | default('/home/' + users_user.name) }}/.ssh/id_rsa.pub"
+      mode: "644"
   when: users_user.generate_ssh_key | default('no') | bool
-  become: yes
-  become_user: "{{ users_user.name }}"
   tags: ['users', 'configuration']
