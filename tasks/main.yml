@@ -4,12 +4,13 @@
 - name: Bootstrap users
   block:
 
-    - name: Ensure required system packages are present
+    - name: Install required system packages
       become: true
       package:
         name: "{{ item }}"
         state: present
-      with_items: "{{ users_packages.split() }}"
+        use: "{{ ansible_pkg_mgr }}"
+      loop: "{{ users_packages }}"
       register: users_packages_install
       until: users_packages_install is succeeded
       retries: 3

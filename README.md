@@ -107,8 +107,8 @@ This example is taken from `molecule/playbook.yml`:
 ---
 - name: Converge
   hosts: all
-  gather_facts: false
-  become: true
+  gather_facts: no
+  become: yes
 
   roles:
     - role: rembik.bootstrap
