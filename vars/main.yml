@@ -8,4 +8,4 @@ _users_packages:
 # Map the right set of packages, based on gathered facts.
 users_packages: "{{ _users_packages[ansible_distribution ~'_'~ ansible_distribution_major_version]|default(
                  _users_packages[ansible_distribution])|default(
-                 _users_packages[ansible_os_family])|default(omit) }}"
+                 _users_packages[ansible_os_family])|default([]) }}"
