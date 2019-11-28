@@ -143,7 +143,7 @@ This example is taken from `molecule/playbook.yml`:
             comment: User
             uid: 2003
             groups: [users]
-            home: /home/users/user
+            home: /custom/user
             shell: /bin/sh
             generate_ssh_key: yes
 ```
