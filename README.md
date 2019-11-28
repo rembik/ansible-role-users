@@ -125,6 +125,7 @@ This example is taken from `molecule/playbook.yml`:
           - name: molecule
             comment: Ansible Test User
             uid: 2001
+            home: /test/molecule
             cron: yes
             sudo: yes
             generate_ssh_key: yes
@@ -143,7 +144,6 @@ This example is taken from `molecule/playbook.yml`:
             comment: User
             uid: 2003
             groups: [users]
-            home: /custom/user
             shell: /bin/sh
             generate_ssh_key: yes
 ```
