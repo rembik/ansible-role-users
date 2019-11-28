@@ -148,7 +148,7 @@
         label: "{{ item.name }}"
       tags: ['users', 'configuration']
 
-  - name: Setup user SSH keys
+    - name: Setup user SSH keys
       include_tasks: keys.yml
       with_items: "{{ users }}"
       loop_control:
