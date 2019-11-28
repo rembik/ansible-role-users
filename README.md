@@ -97,7 +97,7 @@ The following parameters are available for each group dictionary:
 Dependencies
 ------------
 
-In general this role has no dependencies. In combination with the recommended role [`rembik.bootstrap`](https://github.com/rembik/ansible-role-bootstrap), this role uses the temporary registered `bootstrap_ansible_user` to connect to the remote host and executing this role tasks.
+In general this role has no dependencies. In combination with the recommended role [`rembik.bootstrap`](https://github.com/rembik/ansible-role-bootstrap), this role uses the defined `bootstrap_user` (if necessary) to connect to the remote host and executing this role tasks.
 
 Example Playbook
 ----------------
@@ -123,30 +123,29 @@ This example is taken from `molecule/playbook.yml`:
             comment: No User
             create_home: no
           - name: molecule
-            comment: Ansible Management User
+            comment: Ansible Test User
             uid: 2001
-            groups: [users, bin]
+            cron: yes
+            sudo: yes
+            generate_ssh_key: yes
+          - name: admin
+            comment: Administrator
+            uid: 2002
+            groups: [users]
             cron: yes
             sudo: yes
             profile: |
               alias ll='ls -lah'
               alias cp='cp -iv'
             ssh_key:
-              - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABWBILQeRSYYmGea/WIf6kd nobody@example.com"
-            generate_ssh_key: yes
-          - name: test
-            comment: Ansible Test User
-            uid: 2002
-            groups: [users]
-            home: /test
-            cron: yes
-            generate_ssh_key: yes
+              - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABWBILQeRSYYmGea/WIf6kd... admin@example.com"
           - name: user
             comment: User
             uid: 2003
             groups: [users]
+            home: /home/users/user
             shell: /bin/sh
-
+            generate_ssh_key: yes
 ```
 
 Role Tests

@@ -1,6 +1,5 @@
 ---
 # tasks file for user keys
-
 - name: Prepare local SSH key directory
   file:
     path: "{{ users_ssh_key_dir }}"

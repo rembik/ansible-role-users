@@ -1,9 +1,13 @@
 ---
 # tasks file for users
+- name: Set bootstrap ansible_user
+  set_fact:
+    bootstrap_ansible_user: "{{ ansible_user | default(omit) }}"
+  when:
+    - bootstrap_ansible_user is not defined
 
-- name: Bootstrap users
+- name: Manage users
   block:
-
     - name: Install required system packages
       become: true
       package:
@@ -127,17 +131,6 @@
         label: "{{ item.name }}"
       tags: ['users', 'configuration']
 
-    - name: Setup user SSH keys
-      include_tasks: keys.yml
-      with_items: "{{ users }}"
-      loop_control:
-        loop_var: users_user
-        label: "{{ users_user.name }}"
-      when:
-        - users_user.state | default('present') == 'present'
-        - users_user.create_home | default(users_create_home) | bool
-      tags: ['users', 'configuration']
-
     - name: Setup user profile
       blockinfile:
         block: "{{ item.profile }}"
@@ -155,5 +148,15 @@
         label: "{{ item.name }}"
       tags: ['users', 'configuration']
 
+  - name: Setup user SSH keys
+      include_tasks: keys.yml
+      with_items: "{{ users }}"
+      loop_control:
+        loop_var: users_user
+        label: "{{ users_user.name }}"
+      when:
+        - users_user.state | default('present') == 'present'
+        - users_user.create_home | default(users_create_home) | bool
+      tags: ['users', 'configuration']
   vars:
     ansible_user: "{{ bootstrap_ansible_user | default(omit) }}"
