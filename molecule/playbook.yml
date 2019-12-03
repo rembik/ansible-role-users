@@ -19,7 +19,7 @@
           - name: molecule
             comment: Ansible Test User
             uid: 2001
-            home: /tmp/molecule
+            home: /home/test
             cron: yes
             sudo: yes
             generate_ssh_key: yes

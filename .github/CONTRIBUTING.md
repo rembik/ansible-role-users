@@ -19,13 +19,13 @@ sudo pip install molecule
 ```
 
 You can decide, if you want to run the tests locally with Docker, Vagrant or on Amazon EC2. Follow the respective requirements for that:
-- [Docker](http://github.com/rembik/ansible-role-users/tree/master/molecule/docker-all/INSTALL.rst)
-- [Amazon EC2](http://github.com/rembik/ansible-role-users/tree/master/molecule/ec2-all/INSTALL.rst)
+- [Docker](http://github.com/rembik/ansible-role-users/tree/master/molecule/default/INSTALL.rst)
+- [Amazon EC2](http://github.com/rembik/ansible-role-users/tree/master/molecule/ec2/INSTALL.rst)
 - [Vagrant](http://github.com/rembik/ansible-role-users/tree/master/molecule/vagrant/INSTALL.rst)
 
 Then run the test with the chosen deployment method:
 ```
-molecule test --senario-name default
+molecule test
 molecule test --senario-name docker-all
 
 molecule test --scenario-name ec2
