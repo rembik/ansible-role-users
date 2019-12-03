@@ -8,12 +8,11 @@
 
 - name: Manage users
   block:
-    - name: Install required system packages
+    - name: Install system packages
       become: true
       package:
         name: "{{ item }}"
         state: present
-        use: "{{ ansible_pkg_mgr }}"
       loop: "{{ users_packages }}"
       register: users_packages_install
       until: users_packages_install is succeeded
@@ -148,7 +147,7 @@
         label: "{{ item.name }}"
       tags: ['users', 'configuration']
 
-    - name: Setup user SSH keys
+    - name: Setup user authorized SSH keys
       include_tasks: keys.yml
       with_items: "{{ users }}"
       loop_control:

@@ -19,11 +19,11 @@
           - name: molecule
             comment: Ansible Test User
             uid: 2001
-            home: /test
+            home: /tmp/molecule
             cron: yes
             sudo: yes
             generate_ssh_key: yes
-          - name: admin
+          - name: administrator
             comment: Administrator
             uid: 2002
             groups: [users]
